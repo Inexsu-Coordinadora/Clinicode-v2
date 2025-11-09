@@ -1,0 +1,26 @@
+meta {
+  name: New HTTP Request
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:3000/api/pacientes
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "tipoDocumento": "CC",
+    "numeroDocumento": "1122334455",
+    "nombres": "Julián Esteban",
+    "apellidos": "Restrepo Ospina",
+    "fechaNacimiento": "1988-06-14",
+    "telefono": "3104456677",
+    "correo": "julian.restrepo@example.com",
+    "direccion": "Carrera 72 #45-19, Bello"
+  }
+  
+  
+}
