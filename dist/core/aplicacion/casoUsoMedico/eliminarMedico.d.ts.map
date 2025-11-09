@@ -1,1 +1,0 @@
-{"version":3,"file":"eliminarMedico.d.ts","sourceRoot":"","sources":["../../../../src/core/aplicacion/casoUsoMedico/eliminarMedico.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAAE,MAAM,gDAAgD,CAAC;AAErF,qBAAa,cAAc;IACb,OAAO,CAAC,kBAAkB;gBAAlB,kBAAkB,EAAE,mBAAmB;IAErD,cAAc,CAAC,QAAQ,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC;CAGtD"}
