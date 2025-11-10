@@ -1,4 +1,3 @@
-import { configuracion } from '../../../common/configuracion.js';
 import { createClient } from '@supabase/supabase-js';
 
 const { supabaseUrl, supabaseKey } = configuracion;
