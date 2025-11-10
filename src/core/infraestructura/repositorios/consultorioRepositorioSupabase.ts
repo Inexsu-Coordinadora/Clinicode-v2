@@ -1,6 +1,7 @@
 import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
 import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio.js";
-import { supabase } from "../cliente-db/clienteSupaBase.js";
+import { supabase } from "../cliente-db/clienteSupabase.js";
+
 
 
 
@@ -34,7 +35,7 @@ export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
         const { error } = await supabase
             .from('consultorios')
             .delete()
-            .eq('id_consultorio', id_consultorio); 
+            .eq('id_consultorio', id_consultorio);
 
         if (error) {
             console.error(error);
