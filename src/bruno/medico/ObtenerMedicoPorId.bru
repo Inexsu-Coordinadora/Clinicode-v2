@@ -1,0 +1,16 @@
+meta {
+  name: ObtenerMedicoPorId
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:3000/api/medicos/e0c29785-8ac4-4787-b57e-3d8c4099dc7f
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
