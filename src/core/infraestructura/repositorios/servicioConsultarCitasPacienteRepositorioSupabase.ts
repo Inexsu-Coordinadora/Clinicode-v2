@@ -4,7 +4,7 @@ import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsult
 
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 
-export class servicioConsultarCitasPacienteRepositorioSupabase implements IServicioConsultarCitasPacientesRepositorio {
+export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServicioConsultarCitasPacientesRepositorio {
   async obtenerCitasPorPaciente(numeroDocumento: string): Promise<IConsultarCitasPaciente[]> {
     const { data: paciente, error: errorPaciente } = await supabase
       .from("pacientes")

@@ -1,8 +1,11 @@
 import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio.js";
 import { ServicioConsultarCitasPacienteEsquema } from "../../infraestructura/esquemas/ServicioConsultarCitasPacienteEsquema.js";
+import { ErrorAplicacion } from "../../infraestructura/manejoErrores/manejadorErrores.js";
 
 export class ServicioConsultarCitasPacienteCasoUso {
-  constructor(private readonly consultarCitasRepositorio: IServicioConsultarCitasPacientesRepositorio) {}
+  constructor(
+    private readonly consultarCitasRepositorio: IServicioConsultarCitasPacientesRepositorio
+  ) {}
 
   async consultarCitasMedicas(numeroDocumento: string) {
     const validacion = ServicioConsultarCitasPacienteEsquema.safeParse({
@@ -11,13 +14,17 @@ export class ServicioConsultarCitasPacienteCasoUso {
 
     if (!validacion.success) {
       const mensajeError = validacion.error.issues
-        .map((e: { message: string }) => e.message)
+        .map((e) => e.message)
         .join(", ");
-      throw { codigo: 400, mensaje: mensajeError };
+      throw new ErrorAplicacion(400, mensajeError);
     }
 
-    const citas = await this.consultarCitasRepositorio.obtenerCitasPorPaciente(numeroDocumento);
-
-    return citas; 
+    try {
+      const citas = await this.consultarCitasRepositorio.obtenerCitasPorPaciente(numeroDocumento);
+      return citas || [];
+    } catch (error) {
+      if (error instanceof ErrorAplicacion) throw error;
+      throw new ErrorAplicacion(500, "Error al consultar las citas del paciente");
+    }
   }
 }
