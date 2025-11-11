@@ -104,3 +104,5 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         return true;
     }
 }
+
+
