@@ -11,6 +11,7 @@ export class CitasMedicas implements ICitasMedicas {
     creadaEn: string;
     actualizadaEn: string | null;
 
+
     constructor(datosCita: ICitasMedicas) {
         this.idCita = crypto.randomUUID();
         this.idPaciente = datosCita.idPaciente;

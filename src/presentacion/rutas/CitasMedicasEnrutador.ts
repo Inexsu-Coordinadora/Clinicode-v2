@@ -1,5 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { actualizarCitaMedicaControlador, crearCitaMedicaControlador, eliminarCitaMedicaControlador, listarCitasMedicasControlador, obtenerCitaMedicaPorIdControlador } from "../controladores/CitasMedicasControlador.js";
+import {
+    actualizarCitaMedicaControlador, cancelarOReprogramarCitaControlador,
+    crearCitaMedicaControlador, eliminarCitaMedicaControlador, listarCitasMedicasControlador,
+    obtenerCitaMedicaPorIdControlador
+} from "../controladores/CitasMedicasControlador.js";
 
 export async function citasMedicasEnrutador(app: FastifyInstance) {
 
@@ -8,4 +12,5 @@ export async function citasMedicasEnrutador(app: FastifyInstance) {
     app.get("/:idCita", obtenerCitaMedicaPorIdControlador);
     app.put("/:idCita", actualizarCitaMedicaControlador);
     app.delete("/:idCita", eliminarCitaMedicaControlador);
+    app.put("/:idCita/accion", cancelarOReprogramarCitaControlador);
 }
