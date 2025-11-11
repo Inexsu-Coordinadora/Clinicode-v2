@@ -24,18 +24,21 @@ export async function crearCitaMedicaControlador(req: FastifyRequest, reply: Fas
 
         if (!datos?.idPaciente || !datos?.idMedico || !datos?.fechaCita || !datos?.motivoCita) {
             return reply.code(400).send({
+                error: true,
                 mensaje: "Datos incompletos. Se requieren idPaciente, idMedico, fechaCita y motivoCita.",
             });
         }
+
         const cita = await crearCitaCaso.ejecutar(datos);
+
         return reply.code(201).send({
             mensaje: "Cita médica creada correctamente.",
             data: cita,
         });
     } catch (error: any) {
-        return reply.code(500).send({
-            mensaje: "Error interno del servidor al crear la cita médica.",
-            error: error.message,
+        return reply.code(400).send({
+            error: true,
+            mensaje: error.message || "Error al crear la cita médica.",
         });
     }
 }
