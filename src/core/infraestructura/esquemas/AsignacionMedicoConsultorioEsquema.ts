@@ -50,8 +50,8 @@ export const CrearAsignacionMedicoConsultorioEsquema = z
         message: "Formato inválido. Usa HH:mm (por ejemplo, 12:00)",
     })
 })
-.superRefine((agenda, ctx) => {
-    if (agenda.horaInicio >= agenda.horaFin) {
+.superRefine((asignacion, ctx) => {
+    if (asignacion.horaInicio >= asignacion.horaFin) {
     ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "La hora de fin debe ser posterior a la hora de inicio",

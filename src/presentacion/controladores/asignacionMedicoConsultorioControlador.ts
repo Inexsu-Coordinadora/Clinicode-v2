@@ -4,7 +4,7 @@ import { ListarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignac
 import { ObtenerAsignacionMedicoConsultorioID } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ObtenerAsignacionMedicoConsultorioID.js";
 import { ActualizarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ActualizarAsignacionMedicoConsultorio.js";
 import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/EliminarAsignacionMedicoConsultorio.js";
-import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AgendaMedicoEsquema.js";
+import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema.js";
 import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase.js";
 import { ZodError } from "zod";
 
