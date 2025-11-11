@@ -21,11 +21,11 @@ export async function crearAsignacionMedicoConsultorioControlador (
     reply: FastifyReply) {
         try{
             const datosAsignacion = CrearAsignacionMedicoConsultorioEsquema.parse(req.body);
-            const idNuevaAsignacion = await crearAsignacionMedicoConsultorioCaso.ejecutar(datosAsignacion);
+            const nuevaAsignacion = await crearAsignacionMedicoConsultorioCaso.ejecutar(datosAsignacion);
 
             return reply.code(200).send({
                 mensaje: "Asignación del médico al consultorio creada correctamente",
-                idAsignacion: idNuevaAsignacion
+                Asignacion: nuevaAsignacion
             });
         } catch (err) {
             if (err instanceof ZodError) {

@@ -1,7 +1,7 @@
 import { IAsignacionMedicoConsultorio } from "../entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio.js";
 
 export interface IAsignacionMedicoConsultorioRepositorio {
-    crearAsignacionMedicoConsultorio(datosAsignacion: IAsignacionMedicoConsultorio): Promise<string>;
+    crearAsignacionMedicoConsultorio(datosAsignacion: IAsignacionMedicoConsultorio): Promise<IAsignacionMedicoConsultorio>;
 
     listarAsignacionMedicoConsultorio(limite?: number): Promise<IAsignacionMedicoConsultorio[]>;
     

@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export class AsignacionMedicoConsultorioRepositorioSupaBase implements IAsignacionMedicoConsultorioRepositorio {
     
-    async crearAsignacionMedicoConsultorio(datosAsignacion: AsignacionMedicoConsultorioDTO): Promise<string> {
+    async crearAsignacionMedicoConsultorio(datosAsignacion: AsignacionMedicoConsultorioDTO): Promise<IAsignacionMedicoConsultorio> {
         
         const { data: medico, error: errorMedico } = await supabase
         .from("medicos")
@@ -100,14 +100,14 @@ export class AsignacionMedicoConsultorioRepositorioSupaBase implements IAsignaci
             hora_fin: datosAsignacion.horaFin,
             creada_en: new Date().toISOString()
         })
-        .select("id_asignacion")
+        .select("*")
         .single();
         
         if (error) {
             throw new Error(`Error al crear la asignación del médico al consultorio: ${error.message}`);
         }
         
-        return data.id_asignacion;
+        return data;
     }
 
     async listarAsignacionMedicoConsultorio(limite?:number): Promise<IAsignacionMedicoConsultorio[]> {

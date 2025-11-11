@@ -4,8 +4,8 @@ import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repositor
 export class CrearAsignacionMedicoConsultorio {
     constructor(private readonly repo: IAsignacionMedicoConsultorioRepositorio){}
 
-    async ejecutar(datosAsignacion:IAsignacionMedicoConsultorio): Promise<string> {
-        const idAsignacion = await this.repo.crearAsignacionMedicoConsultorio(datosAsignacion);
-        return idAsignacion;
+    async ejecutar(datosAsignacion:IAsignacionMedicoConsultorio): Promise<IAsignacionMedicoConsultorio> {
+        const asignacionCreada = await this.repo.crearAsignacionMedicoConsultorio(datosAsignacion);
+        return asignacionCreada;
     }
 };
