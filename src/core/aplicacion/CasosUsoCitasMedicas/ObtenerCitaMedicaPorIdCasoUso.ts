@@ -4,7 +4,7 @@ import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicas
 export class ObtenerCitaMedicaPorIdCasoUso {
     constructor(private repositorio: ICitasMedicasRepositorio) { }
 
-    async ejecutar(idCita: string): Promise<ICitasMedicas | null> {
-        return await this.repositorio.obtenerCitaMedicaPorID(idCita);
+    async ejecutar(id_cita: string): Promise<ICitasMedicas | null> {
+        return await this.repositorio.obtenerCitaMedicaPorID(id_cita);
     }
 }

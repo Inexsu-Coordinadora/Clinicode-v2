@@ -27,7 +27,7 @@ export async function crearPacienteControlador(
     
     return reply.code(201).send({
         mensaje: "Paciente creado correctamente",
-        idPaciente: idNuevoPaciente
+        id_paciente: idNuevoPaciente
     });
   } catch (err) {
     if (err instanceof ZodError) {
@@ -65,11 +65,11 @@ export async function listarPacienesControlador (
 };
 
 export async function obtenerPacientePorIdControlador (
-  req: FastifyRequest<{ Params: { idPaciente: string } }>, 
+  req: FastifyRequest<{ Params: { id_paciente: string } }>, 
   reply: FastifyReply) {
     try {
-      const { idPaciente } = req.params;
-      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(idPaciente);
+      const { id_paciente } = req.params;
+      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(id_paciente);
 
       if (!pacienteEncontrado) {
         return reply.code(404).send({
@@ -90,13 +90,13 @@ export async function obtenerPacientePorIdControlador (
 };
 
 export async function actualizarPacienteControlador(
-  req: FastifyRequest<{ Params: { idPaciente: string }; Body: PacienteDTO }>, 
+  req: FastifyRequest<{ Params: { id_paciente: string }; Body: PacienteDTO }>, 
   reply: FastifyReply){
     try{
-      const { idPaciente} = req.params;
+      const { id_paciente} = req.params;
       const nuevoPaciente = CrearPacienteEsquema.parse(req.body);
       const pacienteActualizado = await actualizarPacienteCaso.ejecutar(
-        idPaciente,
+        id_paciente,
         nuevoPaciente);
 
         if (!pacienteActualizado) {
@@ -119,15 +119,15 @@ export async function actualizarPacienteControlador(
   };
 
   export async function eliminarPacienteControlador (
-    req: FastifyRequest<{Params: {idPaciente: string}}>,
+    req: FastifyRequest<{Params: {id_paciente: string}}>,
     reply: FastifyReply) {
       try {
-        const {idPaciente} = req.params;
-        await eliminarPacienteCaso.ejecutar(idPaciente);
+        const {id_paciente} = req.params;
+        await eliminarPacienteCaso.ejecutar(id_paciente);
 
         return reply.code(200).send({
           mensaje: "Paciente eliminado correctamente",
-          idPaciente: idPaciente
+          id_paciente: id_paciente
         });
       } catch (err){
         return reply.code(500).send({

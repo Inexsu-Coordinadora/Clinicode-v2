@@ -9,8 +9,8 @@ export async function citasMedicasEnrutador(app: FastifyInstance) {
 
     app.post("/", crearCitaMedicaControlador);
     app.get("/", listarCitasMedicasControlador);
-    app.get("/:idCita", obtenerCitaMedicaPorIdControlador);
-    app.put("/:idCita", actualizarCitaMedicaControlador);
-    app.delete("/:idCita", eliminarCitaMedicaControlador);
-    app.put("/:idCita/accion", cancelarOReprogramarCitaControlador);
+    app.get("/:id_cita", obtenerCitaMedicaPorIdControlador);
+    app.put("/:id_cita", actualizarCitaMedicaControlador);
+    app.delete("/:id_cita", eliminarCitaMedicaControlador);
+    app.put("/:id_cita/accion", cancelarOReprogramarCitaControlador);
 }

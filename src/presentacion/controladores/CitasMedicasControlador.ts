@@ -1,5 +1,6 @@
 import { CancelarOReprogramarCitaCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/CancelarOReprogramarCitaCasoUso.js";
 import { ObtenerCitaMedicaPorIdCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/ObtenerCitaMedicaPorIdCasoUso.js";
+import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase.js";
 import { CitasMedicasRepositorioSupabase } from "../../core/infraestructura/repositorios/CitaMedicaRepositorioSupabase.js";
 import { ActualizarCitaMedicaCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/ActualizarCitaMedicaCasoUso.js";
 import { ObtenerCitasMedicasCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/ObtenerCitasMedicasCasoUso.js";
@@ -11,9 +12,10 @@ import { FastifyRequest, FastifyReply } from "fastify";
 
 
 const repo = new CitasMedicasRepositorioSupabase();
+const repoConsultorios = new ConsultorioRepositorioSupabase();
 
 
-const cancelarOReprogramarCitaCaso = new CancelarOReprogramarCitaCasoUso(repo);
+const cancelarOReprogramarCitaCaso = new CancelarOReprogramarCitaCasoUso(repo,repoConsultorios);
 const obtenerCitaPorIdCaso = new ObtenerCitaMedicaPorIdCasoUso(repo);
 const actualizarCitaCaso = new ActualizarCitaMedicaCasoUso(repo);
 const listarCitasCaso = new ObtenerCitasMedicasCasoUso(repo);
@@ -25,9 +27,9 @@ export async function crearCitaMedicaControlador(req: FastifyRequest, reply: Fas
     try {
         const datos = req.body as any;
 
-        if (!datos?.idPaciente || !datos?.idMedico || !datos?.fechaCita || !datos?.motivoCita) {
+        if (!datos?.id_paciente || !datos?.id_medico || !datos?.fecha_cita || !datos?.motivoCita) {
             return reply.code(400).send({
-                mensaje: "Datos incompletos. Se requieren idPaciente, idMedico, fechaCita y motivoCita.",
+                mensaje: "Datos incompletos. Se requieren id_paciente, id_medico, fecha_cita y motivoCita.",
             });
         }
         const cita = await crearCitaCaso.ejecutar(datos);
@@ -63,12 +65,12 @@ export async function listarCitasMedicasControlador(req: FastifyRequest, reply: 
 
 export async function obtenerCitaMedicaPorIdControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const { idCita } = req.params as { idCita: string };
-        if (!idCita) {
-            return reply.code(400).send({ mensaje: "Debe proporcionar un idCita válido." });
+        const { id_cita } = req.params as { id_cita: string };
+        if (!id_cita) {
+            return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
         }
 
-        const cita = await obtenerCitaPorIdCaso.ejecutar(idCita);
+        const cita = await obtenerCitaPorIdCaso.ejecutar(id_cita);
         if (!cita) {
             return reply.code(404).send({
                 mensaje: "Cita médica no encontrada.",
@@ -90,15 +92,15 @@ export async function obtenerCitaMedicaPorIdControlador(req: FastifyRequest, rep
 
 export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const { idCita } = req.params as { idCita: string };
-        if (!idCita) {
-            return reply.code(400).send({ mensaje: "Debe proporcionar un idCita válido." });
+        const { id_cita } = req.params as { id_cita: string };
+        if (!id_cita) {
+            return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
         }
         const datos = req.body as any;
         if (!datos || Object.keys(datos).length === 0) {
             return reply.code(400).send({ mensaje: "No se recibieron datos para actualizar." });
         }
-        const citaActualizada = await actualizarCitaCaso.ejecutar(idCita, datos);
+        const citaActualizada = await actualizarCitaCaso.ejecutar(id_cita, datos);
         if (!citaActualizada) {
             return reply.code(404).send({
                 mensaje: "No se encontró la cita médica para actualizar.",
@@ -120,11 +122,11 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
 
 export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const { idCita } = req.params as { idCita: string };
-        if (!idCita) {
-            return reply.code(400).send({ mensaje: "Debe proporcionar un idCita válido." });
+        const { id_cita } = req.params as { id_cita: string };
+        if (!id_cita) {
+            return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
         }
-        const eliminada = await eliminarCitaCaso.ejecutar(idCita);
+        const eliminada = await eliminarCitaCaso.ejecutar(id_cita);
         if (!eliminada) {
             return reply.code(404).send({
                 mensaje: "No se encontró la cita médica para eliminar.",
@@ -134,7 +136,7 @@ export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: 
 
         return reply.code(200).send({
             mensaje: "Cita médica eliminada correctamente.",
-            data: { idCita },
+            data: { id_cita },
         });
     } catch (error: any) {
         return reply.code(500).send({
@@ -146,15 +148,15 @@ export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: 
 
 export async function cancelarOReprogramarCitaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const { idCita } = req.params as { idCita: string };
-        const { accion, fechaCita, idConsultorio } = req.body as {
+        const { id_cita } = req.params as { id_cita: string };
+        const { accion, fecha_cita, id_consultorio } = req.body as {
             accion: "cancelar" | "reprogramar";
-            fechaCita?: string;
-            idConsultorio?: string;
+            fecha_cita?: string;
+            id_consultorio?: string;
         };
 
-        if (!idCita) {
-            return reply.code(400).send({ mensaje: "Debe proporcionar un idCita válido." });
+        if (!id_cita) {
+            return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
         }
 
         if (!accion || (accion !== "cancelar" && accion !== "reprogramar")) {
@@ -165,11 +167,11 @@ export async function cancelarOReprogramarCitaControlador(req: FastifyRequest, r
 
         const datosReprogramacion: DatosReprogramacion = {};
 
-        if (fechaCita) datosReprogramacion.fechaCita = fechaCita;
-        if (idConsultorio) datosReprogramacion.idConsultorio = idConsultorio;
+        if (fecha_cita) datosReprogramacion.fecha_cita = fecha_cita;
+        if (id_consultorio) datosReprogramacion.id_consultorio = id_consultorio;
 
         const resultado = await cancelarOReprogramarCitaCaso.ejecutar(
-            idCita,
+            id_cita,
             accion,
             datosReprogramacion
         );
