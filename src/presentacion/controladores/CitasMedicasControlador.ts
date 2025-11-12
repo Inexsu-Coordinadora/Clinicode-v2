@@ -10,8 +10,8 @@ import {
     respuestaExitosa,
     respuestaCreacion,
     respuestaError,
-    respuestasComunes,
 } from "../../common/respuestaHttp.js";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
 
 
 const repo = new CitasMedicasRepositorioSupabase();
@@ -31,7 +31,7 @@ export async function crearCitaMedicaControlador(req: FastifyRequest, reply: Fas
         if (!datos?.idPaciente || !datos?.idMedico || !datos?.fechaCita || !datos?.motivoCita) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
-                .send(respuestasComunes.noEncontrado("Datos incompletos. Se requieren idPaciente, idMedico, fechaCita y motivoCita."));
+                .send(noEncontrado("Datos incompletos. Se requieren idPaciente, idMedico, fechaCita y motivoCita."));
         }
 
         const cita = await crearCitaCaso.ejecutar(datos);
@@ -42,7 +42,7 @@ export async function crearCitaMedicaControlador(req: FastifyRequest, reply: Fas
     } catch (error: any) {
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
-            .send(respuestasComunes.errorServidor(`Error al crear la cita médica: ${error.message}`));
+            .send(errorServidor(`Error al crear la cita médica: ${error.message}`));
     }
 }
 
@@ -70,14 +70,14 @@ export async function obtenerCitaMedicaPorIdControlador(req: FastifyRequest, rep
         if (!idCita) {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(respuestasComunes.solicitudInvalida("Debe proporcionar un idCita válido."));
+                .send(solicitudInvalida("Debe proporcionar un idCita válido."));
         }
 
         const cita = await obtenerCitaPorIdCaso.ejecutar(idCita);
         if (!cita) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
-                .send(respuestasComunes.noEncontrado("Cita médica no encontrada."));
+                .send(noEncontrado("Cita médica no encontrada."));
         }
 
         return reply
@@ -86,7 +86,7 @@ export async function obtenerCitaMedicaPorIdControlador(req: FastifyRequest, rep
     } catch (error: any) {
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
-            .send(respuestasComunes.errorServidor(`Error al obtener cita medica: ${error.message}`));
+            .send(errorServidor(`Error al obtener cita medica: ${error.message}`));
     }
 }
 
@@ -96,19 +96,19 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
         if (!idCita) {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(respuestasComunes.solicitudInvalida("Debe proporcionar un idCita válido."));
+                .send(solicitudInvalida("Debe proporcionar un idCita válido."));
         }
         const datos = req.body as any;
         if (!datos || Object.keys(datos).length === 0) {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(respuestasComunes.solicitudInvalida("No se recibieron datos para actualizar."));
+                .send(solicitudInvalida("No se recibieron datos para actualizar."));
         }
         const citaActualizada = await actualizarCitaCaso.ejecutar(idCita, datos);
         if (!citaActualizada) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
-                .send(respuestasComunes.noEncontrado("No se encontró la cita médica para actualizar."));
+                .send(noEncontrado("No se encontró la cita médica para actualizar."));
         }
 
         return reply
@@ -117,7 +117,7 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
     } catch (error: any) {
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
-            .send(respuestasComunes.errorServidor(`Error al actualizar cita médica: ${error.message}`));
+            .send(errorServidor(`Error al actualizar cita médica: ${error.message}`));
     }
 }
 
@@ -127,13 +127,13 @@ export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: 
         if (!idCita) {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(respuestasComunes.solicitudInvalida("Debe proporcionar un idCita válido."));
+                .send(solicitudInvalida("Debe proporcionar un idCita válido."));
         }
         const eliminada = await eliminarCitaCaso.ejecutar(idCita);
         if (!eliminada) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
-                .send(respuestasComunes.noEncontrado("No se encontró la cita médica para eliminar."));
+                .send(noEncontrado("No se encontró la cita médica para eliminar."));
         }
 
         return reply
@@ -142,6 +142,6 @@ export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: 
     } catch (error: any) {
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
-            .send(respuestasComunes.errorServidor(`Error al eliminar la cita médica: ${error.message}`));
+            .send(errorServidor(`Error al eliminar la cita médica: ${error.message}`));
     }
 }
