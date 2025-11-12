@@ -27,5 +27,3 @@ export const respuestaError = (mensaje: string): IRespuestaHttp<null> => ({
     mensaje,
     datos: null,
 });
-
-
