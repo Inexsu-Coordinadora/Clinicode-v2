@@ -7,6 +7,10 @@ import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asign
 import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema.js";
 import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase.js";
 import { ZodError } from "zod";
+import { StatusCode } from "../../common/statusCode.js";
+import { respuestaExitosa} from "../../common/respuestaHttp.js";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
+
 
 const repo = new AsignacionMedicoConsultorioRepositorioSupaBase();
 
@@ -23,21 +27,18 @@ export async function crearAsignacionMedicoConsultorioControlador (
             const datosAsignacion = CrearAsignacionMedicoConsultorioEsquema.parse(req.body);
             const nuevaAsignacion = await crearAsignacionMedicoConsultorioCaso.ejecutar(datosAsignacion);
 
-            return reply.code(200).send({
-                mensaje: "Asignación del médico al consultorio creada correctamente",
-                Asignacion: nuevaAsignacion
-            });
+            return reply
+            .code(StatusCode.EXITO)
+            .send(respuestaExitosa(nuevaAsignacion,"Asignación del médico al consultorio creada correctamente"));
         } catch (err) {
             if (err instanceof ZodError) {
-                return reply.code(400).send({
-                    mensaje: "Datos inválidos",
-                    error: err.issues[0]?.message || "Error desconocido",
-                });
+                return reply
+                .code(StatusCode.SOLICITUD_INCORRECTA)
+                .send(solicitudInvalida(err.issues[0]?.message || "Error desconocido"));
             }
-            return reply.code(500).send({
-                mensaje: "Error al crear la asignación del médico al consultorio",
-                error: err instanceof Error ? err.message : String(err)
-            });
+            return reply
+            .code(StatusCode.ERROR_SERVIDOR)
+            .send(errorServidor(`Error al crear la asignación del médico al consultorio: ${err instanceof Error ? err.message : String(err)}`));
         }
     };
 
@@ -48,16 +49,15 @@ export async function listarAsignacionMedicoConsultorioControlador (
             const {limite} = req.query;
             const asignacionEncontrada = await listarAsignacionMedicoConsultorioCaso.ejecutar(limite);
 
-            return reply.code(200).send({
-                mensaje: "Asignaciones del médico al consultorio encontradas correctamente",
-                Asignación: asignacionEncontrada,
-                TotalAsignaciones: asignacionEncontrada.length
-            });
+            return reply
+            .code(StatusCode.EXITO)
+            .send(respuestaExitosa({Asignación: asignacionEncontrada,
+                TotalAsignaciones: asignacionEncontrada.length},
+                "Asignaciones del médico al consultorio encontradas correctamente"));
         } catch(err){
-            return reply.code(500).send({
-                mensaje: "Error al obtener las asignaciones del médico al consultorio",
-                error: err instanceof Error ? err.message : err
-            });
+            return reply
+            .code(StatusCode.ERROR_SERVIDOR)
+            .send(errorServidor(`Error al listar la asignación del médico al consultorio: ${err instanceof Error ? err.message : String(err)}`));
         }
     };
 
@@ -69,20 +69,19 @@ export async function obtenerAsignacionMedicoConsultorioControlador (
             const asignacionEncontrada = await ObtenerAsignacionMedicoConsultorioIDCaso.ejecutar(idAsignacion);
             
             if (!asignacionEncontrada) {
-                return reply.code(404).send({
-                    mensaje: "Asignación del médico al consultorio no encontrada"
-                });
+                return reply
+                .code(StatusCode.NO_ENCONTRADO)
+                .send(noEncontrado(idAsignacion));
             }
             
-            return reply.code(200).send({
-                mensaje: "Asignación del médico al consultorio encontrada correctamente",
-                Asignacion: asignacionEncontrada
-            });
+            return reply
+            .code(StatusCode.EXITO)
+            .send(respuestaExitosa(asignacionEncontrada,
+                "Asignación del médico al consultorio encontrada correctamente"));
         } catch(err) {
-            return reply.code(500).send({
-                mensaje: "Error al obtener la asignación del médico al consultorio",
-                error: err instanceof Error ? err.message: err
-            });
+            return reply
+            .code(StatusCode.ERROR_SERVIDOR)
+            .send(errorServidor(`Error al obtener la asignación del médico al consultorio: ${err instanceof Error ? err.message : String(err)}`));
         }
     };
 
@@ -97,20 +96,19 @@ export async function actualizarAsignacionMedicoConsultorioControlador(
         nuevaAsignacion);
 
         if (!asignacionActualizada) {
-            reply.code(404).send({
-            mensaje: "Asignación del médico al consultorio no encontrada"
-        });
+            reply
+            .code(StatusCode.NO_ENCONTRADO)
+            .send(noEncontrado(idAsignacion));
         }
         
-        return reply.code(200).send({
-            mensaje: "Asignación del médico al consultorio actualizada correctamente",
-            AsignacionActualizada: asignacionActualizada
-        });
+        return reply
+        .code(StatusCode.EXITO)
+        .send(respuestaExitosa(asignacionActualizada,
+            "Asignación del médico al consultorio actualizada correctamente"));
     } catch(err) {
-        return reply.code(500).send({
-        mensaje: "Error al actualizar la asignación del médico al consultorio",
-        error: err instanceof Error ? err.message : err
-    });
+        return reply
+        .code(StatusCode.ERROR_SERVIDOR)
+        .send(errorServidor(`Error al actualizar la asignación del médico al consultorio: ${err instanceof Error ? err.message : String(err)}`));
     }
 };
 
@@ -121,14 +119,12 @@ export async function eliminarAsignacionMedicoConsultorioControlador (
             const {idAsignacion} = req.params;
             await eliminarAsignacionMedicoConsultorioCaso.ejecutar(idAsignacion);
             
-            return reply.code(200).send({
-                mensaje: "Asignación del médico al consultorio eliminada correctamente",
-                idAsignacion: idAsignacion
-            });
+            return reply
+            .code(StatusCode.EXITO)
+            .send(respuestaExitosa(idAsignacion,"Asignación del médico al consultorio eliminada correctamente"));
         } catch (err){
-            return reply.code(500).send({
-                mensaje: "Error al eliminar la asignación del médico al consultorio",
-                error: err instanceof Error ? err.message : err
-            });
+            return reply
+            .code(StatusCode.ERROR_SERVIDOR)
+            .send(errorServidor(`Error al eliminar la asignación del médico al consultorio: ${err instanceof Error ? err.message : String(err)}`));
         }
     };
