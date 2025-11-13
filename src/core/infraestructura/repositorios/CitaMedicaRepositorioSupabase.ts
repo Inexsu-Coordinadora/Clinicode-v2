@@ -103,4 +103,55 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         if (error) throw new Error(error.message);
         return true;
     }
+
+    async obtenerPacientePorId(idPaciente: string) {
+        const { data } = await supabase.from("pacientes").select("id_paciente").eq("id_paciente", idPaciente).maybeSingle();
+        return data;
+    }
+
+    async obtenerMedicoPorId(idMedico: string) {
+        const { data } = await supabase.from("medicos").select("id_medico").eq("id_medico", idMedico).maybeSingle();
+        return data;
+    }
+
+    async obtenerConsultorioPorId(idConsultorio: string) {
+        const { data } = await supabase.from("consultorios").select("id_consultorio").eq("id_consultorio", idConsultorio).maybeSingle();
+        return data;
+    }
+
+    async validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null> {
+        const { idMedico, idPaciente, idConsultorio, fechaCita } = cita;
+
+        const medicoConflict = await supabase
+            .from("citas_medicas")
+            .select("id_cita")
+            .eq("id_medico", idMedico)
+            .eq("fecha_cita", fechaCita)
+            .maybeSingle();
+
+        if (medicoConflict?.data) return "El médico ya tiene una cita en este horario.";
+
+        const pacienteConflict = await supabase
+            .from("citas_medicas")
+            .select("id_cita")
+            .eq("id_paciente", idPaciente)
+            .eq("fecha_cita", fechaCita)
+            .maybeSingle();
+
+        if (pacienteConflict?.data) return "El paciente ya tiene una cita en este horario.";
+
+        if (idConsultorio) {
+            const consultorioConflict = await supabase
+                .from("citas_medicas")
+                .select("id_cita")
+                .eq("id_consultorio", idConsultorio)
+                .eq("fecha_cita", fechaCita)
+                .maybeSingle();
+
+            if (consultorioConflict?.data) return "El consultorio ya tiene una cita en este horario.";
+        }
+
+        return null;
+    }
 }
+
