@@ -58,6 +58,17 @@ CREATE TABLE "citas_medicas" (
   "estado" estado_cita DEFAULT 'Programada'
 );
 
+CREATE TABLE asignacion_medico_consultorio (
+  id_asignacion UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id_medico UUID REFERENCES medicos(id_medico),
+  id_consultorio UUID REFERENCES consultorios(id_consultorio),
+  dias_disponibles TEXT[],
+  hora_inicio TIME,
+  hora_fin TIME,
+  creada_en TIMESTAMP DEFAULT NOW()
+);
+
+
 ALTER TABLE "medicos" ADD FOREIGN KEY ("id_especialidad") REFERENCES "especialidades" ("id_especialidad");
 
 ALTER TABLE "disponibilidad_consultorio" ADD FOREIGN KEY ("id_consultorio") REFERENCES "consultorios" ("id_consultorio");

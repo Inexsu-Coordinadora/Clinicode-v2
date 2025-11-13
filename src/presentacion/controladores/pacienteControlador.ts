@@ -7,6 +7,9 @@ import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/Eliminar
 import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema.js";
 import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase.js";
 import { ZodError } from "zod";
+import { StatusCode } from "../../common/statusCode.js";
+import { respuestaError, respuestaExitosa} from "../../common/respuestaHttp.js";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
 
 
 const repo = new PacienteRepositorioSupaBase();
@@ -25,22 +28,19 @@ export async function crearPacienteControlador(
     const datosPaciente = CrearPacienteEsquema.parse(req.body);
     const idNuevoPaciente = await crearPacienteCaso.ejecutar(datosPaciente);
     
-    return reply.code(201).send({
-        mensaje: "Paciente creado correctamente",
-        idPaciente: idNuevoPaciente
-    });
+    return reply
+    .code(StatusCode.EXITO)
+    .send(respuestaExitosa(idNuevoPaciente,"Paciente creado correctamente"));
   } catch (err) {
     if (err instanceof ZodError) {
-      return reply.code(400).send({
-        mensaje: "Datos inválidos",
-        error: err.issues[0]?.message || "Error desconocido",
-      });
+      return reply
+      .code(StatusCode.SOLICITUD_INCORRECTA)
+      .send(respuestaError("Datos inválidos"))
     }
 
-    return reply.code(500).send({
-      mensaje: "Error al crear el paciente",
-      error: err instanceof Error ? err.message : String(err),
-    });
+    return reply
+    .code(StatusCode.ERROR_SERVIDOR)
+    .send(errorServidor(`Error al crear el paciente: ${err instanceof Error ? err.message : String(err)}`));
   }
 };
 
@@ -51,16 +51,14 @@ export async function listarPacienesControlador (
     const { limite } = req.query;
     const pacientesEncontrados = await listarPacientesCaso.ejecutar(limite);
 
-    return reply.code(200).send({
-      mensaje: "Pacientes encontrados correctamente",
-      pacientes: pacientesEncontrados,
-      pacientesEncontrados: pacientesEncontrados.length
-    });
+    return reply
+    .code(StatusCode.EXITO)
+    .send(respuestaExitosa({pacientes: pacientesEncontrados,
+      pacientesEncontrados: pacientesEncontrados.length},"Pacientes encontrados correctamente"));
   } catch (err) {
-    return reply.code(500).send({
-      mensaje: "Error al obtener los pacientes",
-      error: err instanceof Error ? err.message : err
-    });
+    return reply
+    .code(StatusCode.ERROR_SERVIDOR)
+    .send(errorServidor(`Error al listar el paciente: ${err instanceof Error ? err.message : String(err)}`));
   }
 };
 
@@ -72,20 +70,18 @@ export async function obtenerPacientePorIdControlador (
       const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(idPaciente);
 
       if (!pacienteEncontrado) {
-        return reply.code(404).send({
-          mensaje: "Paciente no encontrado"
-        });
+        return reply
+        .code(StatusCode.NO_ENCONTRADO)
+        .send(noEncontrado(idPaciente));
       }
 
-      return reply.code(200).send({
-        mensaje: "Paciente encontrado correctamente",
-        Paciente: pacienteEncontrado
-      });
+      return reply
+      .code(StatusCode.EXITO)
+      .send(respuestaExitosa(pacienteEncontrado,"Paciente encontrado correctamente"));
     } catch(err) {
-      return reply.code(500).send({
-        mensaje: "Error al obtener al paciente",
-        error: err instanceof Error ? err.message: err
-      });
+      return reply
+      .code(StatusCode.ERROR_SERVIDOR)
+      .send(errorServidor(`Error al listar el paciente: ${err instanceof Error ? err.message : String(err)}`));
     }
 };
 
@@ -100,21 +96,19 @@ export async function actualizarPacienteControlador(
         nuevoPaciente);
 
         if (!pacienteActualizado) {
-          reply.code(404).send({
-            mensaje: "Paciente no encontrado"
-          });
+          reply
+          .code(StatusCode.NO_ENCONTRADO)
+          .send(noEncontrado(idPaciente));
         }
 
-        return reply.code(200).send({
-          mensaje: "Paciente actualizado correctamente",
-          pacienteActualizado: pacienteActualizado
-        });
+        return reply
+        .code(StatusCode.EXITO)
+        .send(respuestaExitosa(pacienteActualizado,"Paciente actualizado correctamente"));
 
     } catch(err) {
-      return reply.code(500).send({
-        mensaje: "Error al actualizar el paciente",
-        error: err instanceof Error ? err.message : err
-      });
+      return reply
+      .code(StatusCode.ERROR_SERVIDOR)
+      .send(errorServidor(`Error al actualizar el paciente: ${err instanceof Error ? err.message : String(err)}`));
     }
   };
 
@@ -125,14 +119,12 @@ export async function actualizarPacienteControlador(
         const {idPaciente} = req.params;
         await eliminarPacienteCaso.ejecutar(idPaciente);
 
-        return reply.code(200).send({
-          mensaje: "Paciente eliminado correctamente",
-          idPaciente: idPaciente
-        });
+        return reply
+        .code(StatusCode.EXITO)
+        .send(respuestaExitosa(idPaciente,"Paciente eliminado correctamente"));
       } catch (err){
-        return reply.code(500).send({
-          mensaje: "Error al eliminar el paciente",
-          error: err instanceof Error ? err.message : err
-        });
+        return reply
+        .code(StatusCode.ERROR_SERVIDOR)
+        .send(`Error al eliminar el paciente: ${err instanceof Error ? err.message : String(err)}`);
       }
     };
