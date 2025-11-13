@@ -1,13 +1,17 @@
 export interface ICitasMedicas {
-    idCita: string;
-    idPaciente: string;
-    idMedico: string;
-    idConsultorio: string;
-    fechaCita: string;
+    id_cita: string;
+    id_paciente: string;
+    id_medico: string;
+    id_consultorio: string;
+    fecha_cita: Date;
     motivoCita: string;
-    estadoCita: 'Atendida' | 'Programada' | 'Cancelada';
+    estado: 'Atendida' | 'Programada' | 'Cancelada' | 'Reprogramada';
 
-    // Nuevos datos para tener el control sobre la cita. 
     creadaEn: string;
     actualizadaEn: string | null;
+}
+
+export interface DatosReprogramacion {
+    fecha_cita?: string;
+    id_consultorio?: string;
 }

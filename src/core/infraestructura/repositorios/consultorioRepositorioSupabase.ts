@@ -45,4 +45,26 @@ export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
         return true;
     }
 
+    async actualizarDisponibilidad(id_consultorio: string, disponible: boolean): Promise<void> {
+        const { error } = await supabase
+            .from("consultorios")
+            .update({ disponible })
+            .eq("id_consultorio", id_consultorio);
+
+        if (error) {
+            throw new Error(`Error al actualizar disponibilidad del consultorio: ${error.message}`);
+        }
+    }
+
+    async obtenerConsultorioPorID(id: string): Promise<Consultorio | null> {
+        const { data, error } = await supabase
+            .from("consultorios")
+            .select("*")
+            .eq("id_consultorio", id)
+            .single();
+
+        if (error) return null;
+        return data || null;
+    }
+
 }
