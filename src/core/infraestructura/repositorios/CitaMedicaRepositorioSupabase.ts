@@ -137,13 +137,13 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
     }
 
     async validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null> {
-        const { idMedico, idPaciente, idConsultorio, fechaCita } = cita;
+        const { id_medico, id_paciente, id_consultorio, fecha_cita } = cita;
 
         const medicoConflict = await supabase
             .from("citas_medicas")
             .select("id_cita")
-            .eq("id_medico", idMedico)
-            .eq("fecha_cita", fechaCita)
+            .eq("id_medico", id_medico)
+            .eq("fecha_cita", fecha_cita)
             .maybeSingle();
 
         if (medicoConflict?.data) return "El médico ya tiene una cita en este horario.";
@@ -151,18 +151,18 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         const pacienteConflict = await supabase
             .from("citas_medicas")
             .select("id_cita")
-            .eq("id_paciente", idPaciente)
-            .eq("fecha_cita", fechaCita)
+            .eq("id_paciente", id_paciente)
+            .eq("fecha_cita", fecha_cita)
             .maybeSingle();
 
         if (pacienteConflict?.data) return "El paciente ya tiene una cita en este horario.";
 
-        if (idConsultorio) {
+        if (id_consultorio) {
             const consultorioConflict = await supabase
                 .from("citas_medicas")
                 .select("id_cita")
-                .eq("id_consultorio", idConsultorio)
-                .eq("fecha_cita", fechaCita)
+                .eq("id_consultorio", id_consultorio)
+                .eq("fecha_cita", fecha_cita)
                 .maybeSingle();
 
             if (consultorioConflict?.data) return "El consultorio ya tiene una cita en este horario.";
