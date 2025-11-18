@@ -13,10 +13,6 @@ export interface IAsignacionMedicoConsultorioRepositorio {
     
     eliminarAsignacionMedicoConsultorio(idAsignacion: string): Promise<void>;
     
-    obtenerMedicoPorId(idMedico: string): Promise<any| null>;
-    
-    obtenerConsultorioPorId(idConsultorio: string): Promise<any | null>;
-    
     buscarAsignacionesPorConsultorio(idConsultorio: string): Promise<IAsignacionMedicoConsultorio[]>;
     
     buscarAsignacionesPorMedico(idMedico: string): Promise<IAsignacionMedicoConsultorio[]>;

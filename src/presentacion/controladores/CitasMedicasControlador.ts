@@ -153,6 +153,10 @@ export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: 
         return reply
             .code(StatusCode.EXITO)
             .send(respuestaExitosa({ idCita }, "Cita médica eliminada correctamente."));
+        return reply.code(200).send({
+            mensaje: "Cita médica eliminada correctamente.",
+            data: { id_cita },
+        });
     } catch (error: any) {
         return reply
             .code(StatusCode.ERROR_SERVIDOR)

@@ -31,6 +31,10 @@ export async function crearPacienteControlador(
     return reply
     .code(StatusCode.EXITO)
     .send(respuestaExitosa(idNuevoPaciente,"Paciente creado correctamente"));
+    return reply.code(201).send({
+        mensaje: "Paciente creado correctamente",
+        id_paciente: idNuevoPaciente
+    });
   } catch (err) {
     if (err instanceof ZodError) {
       return reply
@@ -122,6 +126,10 @@ export async function actualizarPacienteControlador(
         return reply
         .code(StatusCode.EXITO)
         .send(respuestaExitosa(idPaciente,"Paciente eliminado correctamente"));
+        return reply.code(200).send({
+          mensaje: "Paciente eliminado correctamente",
+          id_paciente: id_paciente
+        });
       } catch (err){
         return reply
         .code(StatusCode.ERROR_SERVIDOR)
