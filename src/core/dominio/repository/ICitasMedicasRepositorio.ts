@@ -10,4 +10,7 @@ export interface ICitasMedicasRepositorio {
     obtenerMedicoPorId(idMedico: string): Promise<any | null>;
     obtenerConsultorioPorId(idConsultorio: string): Promise<any | null>;
     validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null>;
+    obtenerCitaMedicaPorID(id_cita: string): Promise<ICitasMedicas | null>;
+    actualizarCitaMedica(id_cita: string, datosCita: ICitasMedicas): Promise<ICitasMedicas | null>;
+    eliminarCitaMedica(id_cita: string): Promise<boolean>;
 }

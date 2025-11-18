@@ -29,12 +29,12 @@ export class MedicoControlador {
   };
 
   obtenerMedicoPorId = async (
-    request: FastifyRequest<{ Params: { idMedico: string } }>,
+    request: FastifyRequest<{ Params: { id_medico: string } }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
-      const medicoEncontrado = await this.medicosCasosUso.obtenerMedicoPorId(idMedico);
+      const { id_medico } = request.params;
+      const medicoEncontrado = await this.medicosCasosUso.obtenerMedicoPorId(id_medico);
 
       if (!medicoEncontrado) {
         return reply.code(404).send({
@@ -81,14 +81,14 @@ export class MedicoControlador {
   };
 
   actualizarMedico = async (
-    request: FastifyRequest<{ Params: { idMedico: string }; Body: IMedico }>,
+    request: FastifyRequest<{ Params: { id_medico: string }; Body: IMedico }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
+      const { id_medico } = request.params;
       const datosMedico = request.body;
       const medicoActualizado = await this.medicosCasosUso.actualizarMedico(
-        idMedico,
+        id_medico,
         datosMedico
       );
 
@@ -111,16 +111,16 @@ export class MedicoControlador {
   };
 
   eliminarMedico = async (
-    request: FastifyRequest<{ Params: { idMedico: string } }>,
+    request: FastifyRequest<{ Params: { id_medico: string } }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
-      await this.medicosCasosUso.eliminarMedico(idMedico);
+      const { id_medico } = request.params;
+      await this.medicosCasosUso.eliminarMedico(id_medico);
 
       return reply.code(200).send({
         mensaje: "Médico eliminado correctamente",
-        idMedico: idMedico,
+        id_medico: id_medico,
       });
     } catch (err) {
       return reply.code(500).send({

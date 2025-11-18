@@ -10,8 +10,8 @@ export class Medico implements IMedico {
   correo?: string | null;
   
 
-  constructor(datosMedico: IMedico, idMedico: string) {
-    this.id_medico = idMedico;
+  constructor(datosMedico: IMedico, id_medico: string) {
+    this.id_medico = id_medico;
     this.nombres = datosMedico.nombres;
     this.apellidos = datosMedico.apellidos;
     this.numero_licencia = datosMedico.numero_licencia;
