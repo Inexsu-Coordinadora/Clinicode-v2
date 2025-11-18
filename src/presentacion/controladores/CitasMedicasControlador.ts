@@ -139,11 +139,6 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
 
 export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const { idCita } = req.params as { idCita: string };
-        if (!idCita) {
-            return reply
-                .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(solicitudInvalida("Debe proporcionar un idCita válido."));
         const { id_cita } = req.params as { id_cita: string };
         if (!id_cita) {
             return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
