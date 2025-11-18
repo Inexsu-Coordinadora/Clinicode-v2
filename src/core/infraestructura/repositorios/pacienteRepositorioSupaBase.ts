@@ -45,16 +45,16 @@ export class PacienteRepositorioSupaBase implements IPacienteRepositorio {
         return data as IPaciente[];
     }
 
-    async obtenerPacientePorId(idPaciente: string): Promise<IPaciente | null> {
+    async obtenerPacientePorId(id_paciente: string): Promise<IPaciente | null> {
         const { data, error } = await supabase
-            .from('pacientes').select('*').eq('id_paciente', idPaciente).single();
+            .from('pacientes').select('*').eq('id_paciente', id_paciente).single();
         if (error) {
             throw new Error("Error al obtener Paciente" + error.message)
         }
         return data;
     }
 
-    async actualizarPaciente(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente> {
+    async actualizarPaciente(id_paciente: string, datosPaciente: IPaciente): Promise<IPaciente> {
         const { data, error } = await supabase
             .from("pacientes")
             .update({
@@ -67,7 +67,7 @@ export class PacienteRepositorioSupaBase implements IPacienteRepositorio {
                 correo: datosPaciente.correo,
                 direccion: datosPaciente.direccion,
             })
-            .eq("id_paciente", idPaciente)
+            .eq("id_paciente", id_paciente)
             .select("*")
             .single();
 
@@ -78,11 +78,11 @@ export class PacienteRepositorioSupaBase implements IPacienteRepositorio {
         return data as IPaciente;
     }
 
-    async eliminarPaciente(idPaciente: string): Promise<void> {
+    async eliminarPaciente(id_paciente: string): Promise<void> {
         const { error } = await supabase
             .from("pacientes")
             .delete()
-            .eq("id_paciente", idPaciente);
+            .eq("id_paciente", id_paciente);
 
         if (error) {
             throw new Error("Error al eliminar paciente: " + error.message);

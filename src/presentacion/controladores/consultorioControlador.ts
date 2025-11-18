@@ -1,9 +1,10 @@
 import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase.js";
 import { ActualizarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/actualizarConsultorio.js";
+import { EliminarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/eliminarConsultorio.js";
 import { ListarConsultorios } from "../../core/aplicacion/casoUsoConsultorio/listarConsultorio.js";
 import { CrearConsultorio } from "../../core/aplicacion/casoUsoConsultorio/crearConsultorio.js";
+import { StatusCode } from "../../common/statusCode.js";
 import { FastifyReply, FastifyRequest } from "fastify";
-import { EliminarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/eliminarConsultorio.js";
 
 
 const repo = new ConsultorioRepositorioSupabase();
@@ -17,9 +18,9 @@ export async function crearConsultorioControlador(req: FastifyRequest, reply: Fa
     try {
         const consultorio = req.body as any;
         await crearConsultorioCaso.ejecutar(consultorio);
-        reply.status(201).send({ mensaje: 'Consultorio creado correctamente' });
+        reply.status(StatusCode.CREADO).send({ mensaje: 'Consultorio creado correctamente' });
     } catch (error: any) {
-        reply.status(400).send({ error: error.message });
+        reply.status(StatusCode.SOLICITUD_INCORRECTA).send({ error: error.message });
     }
 }
 
@@ -28,7 +29,7 @@ export async function listarConsultoriosControlador(req: FastifyRequest, reply: 
         const consultorios = await listarConsultoriosCaso.ejecutar();
         reply.send(consultorios);
     } catch (error: any) {
-        reply.status(500).send({ error: error.message });
+        reply.status(StatusCode.ERROR_SERVIDOR).send({ error: error.message });
     }
 }
 
@@ -39,12 +40,12 @@ export async function actualizarConsultorioControlador(req: FastifyRequest, repl
 
         const consultorioActualizado = await actualizarConsultorioCaso.ejecutar(id_consultorio, datos);
 
-        reply.status(200).send({
+        reply.status(StatusCode.EXITO).send({
             mensaje: "Consultorio actualizado correctamente",
             data: consultorioActualizado,
         });
     } catch (error: any) {
-        reply.status(400).send({ error: error.message });
+        reply.status(StatusCode.SOLICITUD_INCORRECTA).send({ error: error.message });
     }
 }
 
@@ -54,8 +55,8 @@ export async function eliminarConsultorioControlador(req: FastifyRequest, reply:
         const { id_consultorio } = req.params as { id_consultorio: string };
 
         await eliminarConsultorioCaso.ejecutar(id_consultorio);
-        reply.status(200).send({ mensaje: "Consultorio eliminado correctamente" });
+        reply.status(StatusCode.EXITO).send({ mensaje: "Consultorio eliminado correctamente" });
     } catch (error: any) {
-        reply.status(400).send({ error: error.message });
+        reply.status(StatusCode.SOLICITUD_INCORRECTA).send({ error: error.message });
     }
 }

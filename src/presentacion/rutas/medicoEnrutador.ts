@@ -14,10 +14,10 @@ function medicoEnrutador(
     medicoControlador: MedicoControlador
 ) {
     app.get("/", medicoControlador.listarMedicos);
-    app.get("/:idMedico", medicoControlador.obtenerMedicoPorId);
+    app.get("/:id_medico", medicoControlador.obtenerMedicoPorId);
     app.post("/", medicoControlador.crearMedico);
-    app.put("/:idMedico", medicoControlador.actualizarMedico);
-    app.delete("/:idMedico", medicoControlador.eliminarMedico);
+    app.put("/:id_medico", medicoControlador.actualizarMedico);
+    app.delete("/:id_medico", medicoControlador.eliminarMedico);
 }
 
 export async function medicosEnrutador(app: FastifyInstance) {
