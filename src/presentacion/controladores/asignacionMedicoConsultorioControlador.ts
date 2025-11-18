@@ -6,19 +6,23 @@ import { ActualizarAsignacionMedicoConsultorio } from "../../core/aplicacion/asi
 import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/EliminarAsignacionMedicoConsultorio.js";
 import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema.js";
 import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase.js";
+import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
+import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase.js";
 import { ZodError } from "zod";
 import { StatusCode } from "../../common/statusCode.js";
 import { respuestaExitosa} from "../../common/respuestaHttp.js";
 import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
 
 
-const repo = new AsignacionMedicoConsultorioRepositorioSupaBase();
+const repoAsignaciones = new AsignacionMedicoConsultorioRepositorioSupaBase();
+const repoConsultorio = new ConsultorioRepositorioSupabase();
+const repoMedico = new MedicoRepositorio();
 
-const crearAsignacionMedicoConsultorioCaso = new CrearAsignacionMedicoConsultorio(repo);
-const listarAsignacionMedicoConsultorioCaso = new ListarAsignacionMedicoConsultorio(repo);
-const ObtenerAsignacionMedicoConsultorioIDCaso = new ObtenerAsignacionMedicoConsultorioID(repo);
-const actualizarAsignacionMedicoConsultorioCaso = new ActualizarAsignacionMedicoConsultorio(repo);
-const eliminarAsignacionMedicoConsultorioCaso = new EliminarAsignacionMedicoConsultorio(repo);
+const crearAsignacionMedicoConsultorioCaso = new CrearAsignacionMedicoConsultorio(repoAsignaciones,repoMedico,repoConsultorio);
+const listarAsignacionMedicoConsultorioCaso = new ListarAsignacionMedicoConsultorio(repoAsignaciones);
+const ObtenerAsignacionMedicoConsultorioIDCaso = new ObtenerAsignacionMedicoConsultorioID(repoAsignaciones);
+const actualizarAsignacionMedicoConsultorioCaso = new ActualizarAsignacionMedicoConsultorio(repoAsignaciones,repoMedico,repoConsultorio);
+const eliminarAsignacionMedicoConsultorioCaso = new EliminarAsignacionMedicoConsultorio(repoAsignaciones);
 
 export async function crearAsignacionMedicoConsultorioControlador (
     req: FastifyRequest<{Body:AsignacionMedicoConsultorioDTO}>,

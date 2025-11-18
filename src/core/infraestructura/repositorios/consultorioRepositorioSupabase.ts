@@ -45,4 +45,15 @@ export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
         return true;
     }
 
+    async obtenerPorId(id_consultorio: string): Promise<Consultorio | null> {
+        const { data, error } = await supabase
+            .from("consultorios")
+            .select("*")
+            .eq("id_consultorio", id_consultorio)
+            .single();
+            
+            if (error) return null;
+            return data as Consultorio;
+        }
+
 }
