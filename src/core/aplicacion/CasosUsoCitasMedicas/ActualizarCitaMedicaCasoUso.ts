@@ -5,8 +5,8 @@ import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicas
 export class ActualizarCitaMedicaCasoUso {
     constructor(private repositorio: ICitasMedicasRepositorio) { }
 
-    async ejecutar(idCita: string, datos: ICitasMedicas): Promise<ICitasMedicas | null> {
+    async ejecutar(id_cita: string, datos: ICitasMedicas): Promise<ICitasMedicas | null> {
         datos.actualizadaEn = new Date().toISOString();
-        return await this.repositorio.actualizarCitaMedica(idCita, datos);
+        return await this.repositorio.actualizarCitaMedica(id_cita, datos);
     }
 }

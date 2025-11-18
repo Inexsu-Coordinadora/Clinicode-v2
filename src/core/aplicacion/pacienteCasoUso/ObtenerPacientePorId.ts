@@ -4,8 +4,8 @@ import { IPacienteRepositorio } from "../../dominio/repository/IPacienteReposito
 export class ObtenerPacientePorId {
     constructor(private readonly repo: IPacienteRepositorio) {}
 
-    async ejecutar(idPaciente: string): Promise<IPaciente | null> {
-        const pacienteObtenido = await this.repo.obtenerPacientePorId(idPaciente);
+    async ejecutar(id_paciente: string): Promise<IPaciente | null> {
+        const pacienteObtenido = await this.repo.obtenerPacientePorId(id_paciente);
         return pacienteObtenido;
     }
 };

@@ -1,6 +1,6 @@
 
 export interface IPaciente {
-    idPaciente?: string;
+    id_paciente?: string;
     tipoDocumento: string;
     numeroDocumento: string;
     nombres: string;

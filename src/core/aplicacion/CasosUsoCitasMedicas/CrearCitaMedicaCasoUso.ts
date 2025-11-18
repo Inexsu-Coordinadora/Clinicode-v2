@@ -7,7 +7,7 @@ export class CrearCitaMedicaCasoUso {
     async ejecutar(datos: ICitasMedicas): Promise<ICitasMedicas> {
         const nuevaCita = new CitasMedicas({
             ...datos,
-            estadoCita: "Programada",
+            estado: "Programada",
             creadaEn: new Date().toISOString(),
             actualizadaEn: null,
         });
