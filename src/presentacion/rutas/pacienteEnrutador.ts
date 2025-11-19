@@ -4,8 +4,8 @@ import { FastifyInstance } from "fastify";
 
 export async function pacienteEnrutador(app: FastifyInstance) {
     app.get('/pacientes',listarPacienesControlador);
-    app.get('/pacientes/:id_paciente',obtenerPacientePorIdControlador);
+    app.get('/pacientes/:idPaciente',obtenerPacientePorIdControlador);
     app.post('/pacientes', crearPacienteControlador);
-    app.put('/pacientes/:id_paciente',actualizarPacienteControlador);
-    app.delete('/pacientes/:id_paciente',eliminarPacienteControlador);
+    app.put('/pacientes/:idPaciente',actualizarPacienteControlador);
+    app.delete('/pacientes/:idPaciente',eliminarPacienteControlador);
 };

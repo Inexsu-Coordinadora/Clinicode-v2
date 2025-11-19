@@ -31,10 +31,6 @@ export async function crearPacienteControlador(
     return reply
     .code(StatusCode.EXITO)
     .send(respuestaExitosa(idNuevoPaciente,"Paciente creado correctamente"));
-    return reply.code(201).send({
-        mensaje: "Paciente creado correctamente",
-        id_paciente: idNuevoPaciente
-    });
   } catch (err) {
     if (err instanceof ZodError) {
       return reply
@@ -67,16 +63,16 @@ export async function listarPacienesControlador (
 };
 
 export async function obtenerPacientePorIdControlador (
-  req: FastifyRequest<{ Params: { id_paciente: string } }>, 
+  req: FastifyRequest<{ Params: { idPaciente: string } }>, 
   reply: FastifyReply) {
     try {
-      const { id_paciente } = req.params;
-      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(id_paciente);
+      const { idPaciente } = req.params;
+      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(idPaciente);
 
       if (!pacienteEncontrado) {
         return reply
         .code(StatusCode.NO_ENCONTRADO)
-        .send(noEncontrado(id_paciente));
+        .send(noEncontrado(idPaciente));
       }
 
       return reply
@@ -90,19 +86,19 @@ export async function obtenerPacientePorIdControlador (
 };
 
 export async function actualizarPacienteControlador(
-  req: FastifyRequest<{ Params: { id_paciente: string }; Body: PacienteDTO }>, 
+  req: FastifyRequest<{ Params: { idPaciente: string }; Body: PacienteDTO }>, 
   reply: FastifyReply){
     try{
-      const { id_paciente} = req.params;
+      const { idPaciente} = req.params;
       const nuevoPaciente = CrearPacienteEsquema.parse(req.body);
       const pacienteActualizado = await actualizarPacienteCaso.ejecutar(
-        id_paciente,
+        idPaciente,
         nuevoPaciente);
 
         if (!pacienteActualizado) {
           reply
           .code(StatusCode.NO_ENCONTRADO)
-          .send(noEncontrado(id_paciente));
+          .send(noEncontrado(idPaciente));
         }
 
         return reply
@@ -117,15 +113,15 @@ export async function actualizarPacienteControlador(
   };
 
   export async function eliminarPacienteControlador (
-    req: FastifyRequest<{Params: {id_paciente: string}}>,
+    req: FastifyRequest<{Params: {idPaciente: string}}>,
     reply: FastifyReply) {
       try {
-        const {id_paciente} = req.params;
-        await eliminarPacienteCaso.ejecutar(id_paciente);
+        const {idPaciente} = req.params;
+        await eliminarPacienteCaso.ejecutar(idPaciente);
 
         return reply
         .code(StatusCode.EXITO)
-        .send(respuestaExitosa(id_paciente,"Paciente eliminado correctamente"));
+        .send(respuestaExitosa(idPaciente,"Paciente eliminado correctamente"));
       } catch (err){
         return reply
         .code(StatusCode.ERROR_SERVIDOR)
