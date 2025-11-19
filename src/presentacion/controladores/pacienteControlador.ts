@@ -125,6 +125,6 @@ export async function actualizarPacienteControlador(
       } catch (err){
         return reply
         .code(StatusCode.ERROR_SERVIDOR)
-        .send(`Error al eliminar el paciente: ${err instanceof Error ? err.message : String(err)}`);
+        .send(errorServidor(`Error al eliminar el paciente: ${err instanceof Error ? err.message : String(err)}`));
       }
     };
