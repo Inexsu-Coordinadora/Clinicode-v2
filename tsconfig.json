@@ -14,7 +14,7 @@
       "esnext"
     ],
     "types": [
-      "node"
+      "node","jest"
     ],
     // and npm install -D @types/node
     // Other Outputs
@@ -32,6 +32,12 @@
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
     // Recommended Options
-    "strict": true
-  }
+    "strict": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*"],
+
+  "exclude": [
+    "dist","jest.config.ts", "tests"
+  ]
 }
