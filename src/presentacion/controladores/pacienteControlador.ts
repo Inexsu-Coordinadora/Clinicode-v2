@@ -76,7 +76,7 @@ export async function obtenerPacientePorIdControlador (
       if (!pacienteEncontrado) {
         return reply
         .code(StatusCode.NO_ENCONTRADO)
-        .send(noEncontrado(idPaciente));
+        .send(noEncontrado(id_paciente));
       }
 
       return reply
@@ -102,7 +102,7 @@ export async function actualizarPacienteControlador(
         if (!pacienteActualizado) {
           reply
           .code(StatusCode.NO_ENCONTRADO)
-          .send(noEncontrado(idPaciente));
+          .send(noEncontrado(id_paciente));
         }
 
         return reply
@@ -125,11 +125,7 @@ export async function actualizarPacienteControlador(
 
         return reply
         .code(StatusCode.EXITO)
-        .send(respuestaExitosa(idPaciente,"Paciente eliminado correctamente"));
-        return reply.code(200).send({
-          mensaje: "Paciente eliminado correctamente",
-          id_paciente: id_paciente
-        });
+        .send(respuestaExitosa(id_paciente,"Paciente eliminado correctamente"));
       } catch (err){
         return reply
         .code(StatusCode.ERROR_SERVIDOR)

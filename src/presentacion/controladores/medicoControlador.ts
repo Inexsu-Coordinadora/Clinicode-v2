@@ -119,7 +119,7 @@ export class MedicoControlador {
 
       return reply
         .status(StatusCode.EXITO)
-        .send(respuestaExitosa({ idMedico }, "Médico eliminado correctamente"));
+        .send(respuestaExitosa({ id_medico }, "Médico eliminado correctamente"));
     } catch (error: any) {
       console.error("Error al eliminar médico:", error);
       return reply
