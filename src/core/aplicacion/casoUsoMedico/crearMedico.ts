@@ -7,8 +7,8 @@ export class CrearMedico {
   constructor(private medicosRepositorio: IMedicosRepositorio) {}
 
   async crearMedico(datosMedico: IMedico): Promise<string> {
-    const idMedico = randomUUID();
-    const nuevoMedico = new Medico(datosMedico, idMedico);
+    const id_medico = randomUUID();
+    const nuevoMedico = new Medico(datosMedico, id_medico);
     const idInsertado = await this.medicosRepositorio.crearMedico(nuevoMedico);
 
     return idInsertado;

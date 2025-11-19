@@ -41,11 +41,11 @@ export class MedicoRepositorio implements IMedicosRepositorio {
     return data!;
   }
 
-  async obtenerMedicoPorId(idMedico: string): Promise<IMedico | null> {
+  async obtenerMedicoPorId(id_medico: string): Promise<IMedico | null> {
     const { data, error } = await this.supabase
       .from("medicos")
       .select("*")
-      .eq("id_medico", idMedico)
+      .eq("id_medico", id_medico)
       .single();
 
     if (error) {
@@ -56,7 +56,7 @@ export class MedicoRepositorio implements IMedicosRepositorio {
     return data!;
   }
 
-  async actualizarMedico(idMedico: string, datosMedico: IMedico): Promise<IMedico> {
+  async actualizarMedico(id_medico: string, datosMedico: IMedico): Promise<IMedico> {
     const medicoDB = {
       nombres: datosMedico.nombres,
       apellidos: datosMedico.apellidos,
@@ -69,18 +69,18 @@ export class MedicoRepositorio implements IMedicosRepositorio {
     const { data, error } = await this.supabase
       .from("medicos")
       .update(medicoDB)
-      .eq("id_medico", idMedico)
+      .eq("id_medico", id_medico)
       .select();
 
     if (error) throw new Error(error.message);
     return data![0];
   }
 
-  async eliminarMedico(idMedico: string): Promise<void> {
+  async eliminarMedico(id_medico: string): Promise<void> {
     const { data: citas, error: errorCitas } = await this.supabase
       .from("citas_medicas")
       .select("id_cita")
-      .eq("id_medico", idMedico);
+      .eq("id_medico", id_medico);
 
     if (errorCitas) throw new Error(errorCitas.message);
 
@@ -91,7 +91,7 @@ export class MedicoRepositorio implements IMedicosRepositorio {
     const { error } = await this.supabase
       .from("medicos")
       .delete()
-      .eq("id_medico", idMedico);
+      .eq("id_medico", id_medico);
 
     if (error) throw new Error(error.message);
   }

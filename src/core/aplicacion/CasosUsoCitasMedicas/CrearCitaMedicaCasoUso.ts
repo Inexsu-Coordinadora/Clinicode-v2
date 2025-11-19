@@ -22,7 +22,7 @@ export class CrearCitaMedicaCasoUso {
 
         const nuevaCita = new CitasMedicas({
             ...datos,
-            estadoCita: "Programada",
+            estado: "Programada",
             creadaEn: new Date().toISOString(),
             actualizadaEn: null,
         });

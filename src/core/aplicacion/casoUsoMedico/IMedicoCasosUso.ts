@@ -3,8 +3,8 @@ import { MedicoDTO } from "../../infraestructura/esquemas/MedicoEsquema.js";
 
 export interface IMedicoCasosUso {
   listarMedicos(limite?: number): Promise<IMedico[]>;
-  obtenerMedicoPorId(idMedico: string): Promise<IMedico | null>;
+  obtenerMedicoPorId(id_medico: string): Promise<IMedico | null>;
   crearMedico(medico: MedicoDTO): Promise<string>;
-  actualizarMedico(idMedico: string, medico: IMedico): Promise<IMedico | null>;
-  eliminarMedico(idMedico: string): Promise<void>;
+  actualizarMedico(id_medico: string, medico: IMedico): Promise<IMedico | null>;
+  eliminarMedico(id_medico: string): Promise<void>;
 }

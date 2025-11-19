@@ -1,8 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { IMedico } from "../../core/dominio/entidades/medicos/IMedico.js";
-import { IMedicoCasosUso } from "./../../core/aplicacion/casoUsoMedico/IMedicoCasosUso.js";
+import { IMedicoCasosUso } from "../../core/aplicacion/casoUsoMedico/IMedicoCasosUso.js";
 import { MedicoDTO, CrearMedicoEsquema } from "../../core/infraestructura/esquemas/MedicoEsquema.js";
 import { ZodError } from "zod";
+import { StatusCode } from "../../common/statusCode.js";
+import { respuestaExitosa, respuestaCreacion, respuestaError } from "../../common/respuestaHttp.js";
+import { solicitudInvalida, noEncontrado, errorServidor } from "../../common/erroresComunes.js";
 
 export class MedicoControlador {
   constructor(private medicosCasosUso: IMedicoCasosUso) {}
@@ -15,42 +18,39 @@ export class MedicoControlador {
       const { limite } = request.query;
       const medicosEncontrados = await this.medicosCasosUso.listarMedicos(limite);
 
-      return reply.code(200).send({
-        mensaje: "Médicos encontrados correctamente",
-        medicos: medicosEncontrados,
-        medicosEncontrados: medicosEncontrados.length,
-      });
-    } catch (err) {
-      return reply.code(500).send({
-        mensaje: "Error al obtener los médicos",
-        error: err instanceof Error ? err.message : err,
-      });
+      return reply
+        .status(StatusCode.EXITO)
+        .send(respuestaExitosa(medicosEncontrados, "Médicos encontrados correctamente"));
+    } catch (error: any) {
+      console.error("Error al listar médicos:", error);
+      return reply
+        .status(StatusCode.ERROR_SERVIDOR)
+        .send(respuestaError(errorServidor(error.message).mensaje));
     }
   };
 
   obtenerMedicoPorId = async (
-    request: FastifyRequest<{ Params: { idMedico: string } }>,
+    request: FastifyRequest<{ Params: { id_medico: string } }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
-      const medicoEncontrado = await this.medicosCasosUso.obtenerMedicoPorId(idMedico);
+      const { id_medico } = request.params;
+      const medicoEncontrado = await this.medicosCasosUso.obtenerMedicoPorId(id_medico);
 
       if (!medicoEncontrado) {
-        return reply.code(404).send({
-          mensaje: "Médico no encontrado",
-        });
+        return reply
+          .status(StatusCode.NO_ENCONTRADO)
+          .send(respuestaError(noEncontrado("No se encontró el médico solicitado").mensaje));
       }
 
-      return reply.code(200).send({
-        mensaje: "Médico encontrado correctamente",
-        medico: medicoEncontrado,
-      });
-    } catch (err) {
-      return reply.code(500).send({
-        mensaje: "Error al obtener el médico",
-        error: err instanceof Error ? err.message : err,
-      });
+      return reply
+        .status(StatusCode.EXITO)
+        .send(respuestaExitosa(medicoEncontrado, "Médico encontrado correctamente"));
+    } catch (error: any) {
+      console.error("Error al obtener médico:", error);
+      return reply
+        .status(StatusCode.ERROR_SERVIDOR)
+        .send(respuestaError(errorServidor(error.message).mensaje));
     }
   };
 
@@ -62,71 +62,69 @@ export class MedicoControlador {
       const nuevoMedico = CrearMedicoEsquema.parse(request.body);
       const idNuevoMedico = await this.medicosCasosUso.crearMedico(nuevoMedico);
 
-      return reply.code(200).send({
-        mensaje: "El médico se creó correctamente",
-        idNuevoMedico: idNuevoMedico,
-      });
-    } catch (err) {
-      if (err instanceof ZodError) {
-        return reply.code(400).send({
-          mensaje: "Error al crear un nuevo médico",
-          error: err.issues[0]?.message || "Error desconocido",
-        });
+      return reply
+        .status(StatusCode.CREADO)
+        .send(respuestaCreacion(idNuevoMedico, "Médico creado correctamente"));
+    } catch (error: any) {
+      if (error instanceof ZodError) {
+        const detalle = error.issues.map((e) => e.message).join(", ");
+        return reply
+          .status(StatusCode.SOLICITUD_INCORRECTA)
+          .send(respuestaError(solicitudInvalida(detalle).mensaje));
       }
-      return reply.code(500).send({
-        mensaje: "Error al crear un nuevo médico",
-        error: err instanceof Error ? err.message : String(err),
-      });
+
+      console.error("Error al crear médico:", error);
+      return reply
+        .status(StatusCode.ERROR_SERVIDOR)
+        .send(respuestaError(errorServidor(error.message).mensaje));
     }
   };
 
   actualizarMedico = async (
-    request: FastifyRequest<{ Params: { idMedico: string }; Body: IMedico }>,
+    request: FastifyRequest<{ Params: { id_medico: string }; Body: IMedico }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
+      const { id_medico } = request.params;
       const datosMedico = request.body;
       const medicoActualizado = await this.medicosCasosUso.actualizarMedico(
-        idMedico,
+        id_medico,
         datosMedico
       );
 
       if (!medicoActualizado) {
-        return reply.code(404).send({
-          mensaje: "Médico no encontrado",
-        });
+        return reply
+          .status(StatusCode.NO_ENCONTRADO)
+          .send(respuestaError(noEncontrado("No se encontró el médico para actualizar").mensaje));
       }
 
-      return reply.code(200).send({
-        mensaje: "Médico actualizado correctamente",
-        medicoActualizado: medicoActualizado,
-      });
-    } catch (err) {
-      return reply.code(500).send({
-        mensaje: "Error al actualizar el médico",
-        error: err instanceof Error ? err.message : err,
-      });
+      return reply
+        .status(StatusCode.EXITO)
+        .send(respuestaExitosa(medicoActualizado, "Médico actualizado correctamente"));
+    } catch (error: any) {
+      console.error("Error al actualizar médico:", error);
+      return reply
+        .status(StatusCode.ERROR_SERVIDOR)
+        .send(respuestaError(errorServidor(error.message).mensaje));
     }
   };
 
   eliminarMedico = async (
-    request: FastifyRequest<{ Params: { idMedico: string } }>,
+    request: FastifyRequest<{ Params: { id_medico: string } }>,
     reply: FastifyReply
   ) => {
     try {
-      const { idMedico } = request.params;
-      await this.medicosCasosUso.eliminarMedico(idMedico);
+      const { id_medico } = request.params;
+      await this.medicosCasosUso.eliminarMedico(id_medico);
 
-      return reply.code(200).send({
-        mensaje: "Médico eliminado correctamente",
-        idMedico: idMedico,
-      });
-    } catch (err) {
-      return reply.code(500).send({
-        mensaje: "Error al eliminar el médico",
-        error: err instanceof Error ? err.message : err,
-      });
+      return reply
+        .status(StatusCode.EXITO)
+        .send(respuestaExitosa({ idMedico }, "Médico eliminado correctamente"));
+    } catch (error: any) {
+      console.error("Error al eliminar médico:", error);
+      return reply
+        .status(StatusCode.ERROR_SERVIDOR)
+        .send(respuestaError(errorServidor(error.message).mensaje));
     }
   };
 }

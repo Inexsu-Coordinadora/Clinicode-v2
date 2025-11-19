@@ -4,7 +4,7 @@ import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio
 export class ActualizarMedico {
   constructor(private medicosRepositorio: IMedicosRepositorio) {}
 
-  async actualizarMedico(idMedico: string, datos: IMedico): Promise<IMedico | null> {
+  async actualizarMedico(id_medico: string, datos: IMedico): Promise<IMedico | null> {
     const datosActualizados = {
       nombres: datos.nombres,
       apellidos: datos.apellidos,
@@ -15,7 +15,7 @@ export class ActualizarMedico {
     };
 
     const medicoActualizado = await this.medicosRepositorio.actualizarMedico(
-      idMedico,
+      id_medico,
       datosActualizados
     );
 
