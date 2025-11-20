@@ -1,17 +1,17 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { CrearAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/CrearAsignacionMedicoConsultorio.js";
-import { ListarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ListarAsignacionMedicoConsultorio.js";
-import { ObtenerAsignacionMedicoConsultorioID } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ObtenerAsignacionMedicoConsultorioID.js";
-import { ActualizarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ActualizarAsignacionMedicoConsultorio.js";
-import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/EliminarAsignacionMedicoConsultorio.js";
-import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema.js";
-import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase.js";
-import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
-import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase.js";
+import { CrearAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/CrearAsignacionMedicoConsultorio";
+import { ListarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ListarAsignacionMedicoConsultorio";
+import { ObtenerAsignacionMedicoConsultorioID } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ObtenerAsignacionMedicoConsultorioID";
+import { ActualizarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/ActualizarAsignacionMedicoConsultorio";
+import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/EliminarAsignacionMedicoConsultorio";
+import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema";
+import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase";
+import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
+import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase";
 import { ZodError } from "zod";
-import { StatusCode } from "../../common/statusCode.js";
-import { respuestaExitosa} from "../../common/respuestaHttp.js";
-import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
+import { StatusCode } from "../../common/statusCode";
+import { respuestaExitosa} from "../../common/respuestaHttp";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes";
 
 
 const repoAsignaciones = new AsignacionMedicoConsultorioRepositorioSupaBase();

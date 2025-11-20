@@ -1,7 +1,7 @@
-import { IAsignacionMedicoConsultorio } from "../../dominio/entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio.js";
-import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio.js";
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
+import { IAsignacionMedicoConsultorio } from "../../dominio/entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio";
+import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
 export class CrearAsignacionMedicoConsultorio {
     constructor(private readonly asignacionesRepo: IAsignacionMedicoConsultorioRepositorio,
         private readonly medicosRepo: IMedicosRepositorio,

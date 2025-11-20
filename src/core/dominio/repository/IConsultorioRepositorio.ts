@@ -1,4 +1,4 @@
-import { Consultorio } from "../entidades/consultorios/IConsultorio.js";
+import { Consultorio } from "../entidades/consultorios/IConsultorio";
 
 
 export interface IConsultorioRepositorio {

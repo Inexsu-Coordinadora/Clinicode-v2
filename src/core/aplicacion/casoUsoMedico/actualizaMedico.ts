@@ -1,5 +1,5 @@
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
 
 export class ActualizarMedico {
   constructor(private medicosRepositorio: IMedicosRepositorio) {}

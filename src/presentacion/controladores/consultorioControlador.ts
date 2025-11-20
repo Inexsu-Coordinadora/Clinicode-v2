@@ -1,9 +1,9 @@
-import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase.js";
-import { ActualizarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/actualizarConsultorio.js";
-import { EliminarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/eliminarConsultorio.js";
-import { ListarConsultorios } from "../../core/aplicacion/casoUsoConsultorio/listarConsultorio.js";
-import { CrearConsultorio } from "../../core/aplicacion/casoUsoConsultorio/crearConsultorio.js";
-import { StatusCode } from "../../common/statusCode.js";
+import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase";
+import { ActualizarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/actualizarConsultorio";
+import { EliminarConsultorio } from "../../core/aplicacion/casoUsoConsultorio/eliminarConsultorio";
+import { ListarConsultorios } from "../../core/aplicacion/casoUsoConsultorio/listarConsultorio";
+import { CrearConsultorio } from "../../core/aplicacion/casoUsoConsultorio/crearConsultorio";
+import { StatusCode } from "../../common/statusCode";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 

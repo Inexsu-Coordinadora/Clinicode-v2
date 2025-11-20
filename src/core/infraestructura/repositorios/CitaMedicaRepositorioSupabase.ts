@@ -1,6 +1,6 @@
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
-import { supabase } from "../cliente-db/clienteSupabase.js";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
+import { supabase } from "../cliente-db/clienteSupabase";
 
 export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio {
 
@@ -121,29 +121,29 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         return true;
     }
 
-    async obtenerPacientePorId(idPaciente: string) {
-        const { data } = await supabase.from("pacientes").select("id_paciente").eq("id_paciente", idPaciente).maybeSingle();
+    async obtenerPacientePorId(id_paciente: string) {
+        const { data } = await supabase.from("pacientes").select("id_paciente").eq("id_paciente", id_paciente).maybeSingle();
         return data;
     }
 
-    async obtenerMedicoPorId(idMedico: string) {
-        const { data } = await supabase.from("medicos").select("id_medico").eq("id_medico", idMedico).maybeSingle();
+    async obtenerMedicoPorId(id_medico: string) {
+        const { data } = await supabase.from("medicos").select("id_medico").eq("id_medico", id_medico).maybeSingle();
         return data;
     }
 
-    async obtenerConsultorioPorId(idConsultorio: string) {
-        const { data } = await supabase.from("consultorios").select("id_consultorio").eq("id_consultorio", idConsultorio).maybeSingle();
+    async obtenerConsultorioPorId(id_consultorio: string) {
+        const { data } = await supabase.from("consultorios").select("id_consultorio").eq("id_consultorio", id_consultorio).maybeSingle();
         return data;
     }
 
     async validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null> {
-        const { idMedico, idPaciente, idConsultorio, fechaCita } = cita;
+        const { id_medico, id_paciente, id_consultorio, fecha_cita } = cita;
 
         const medicoConflict = await supabase
             .from("citas_medicas")
             .select("id_cita")
-            .eq("id_medico", idMedico)
-            .eq("fecha_cita", fechaCita)
+            .eq("id_medico", id_medico)
+            .eq("fecha_cita", fecha_cita)
             .maybeSingle();
 
         if (medicoConflict?.data) return "El médico ya tiene una cita en este horario.";
@@ -151,18 +151,18 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         const pacienteConflict = await supabase
             .from("citas_medicas")
             .select("id_cita")
-            .eq("id_paciente", idPaciente)
-            .eq("fecha_cita", fechaCita)
+            .eq("id_paciente", id_paciente)
+            .eq("fecha_cita", fecha_cita)
             .maybeSingle();
 
         if (pacienteConflict?.data) return "El paciente ya tiene una cita en este horario.";
 
-        if (idConsultorio) {
+        if (id_consultorio) {
             const consultorioConflict = await supabase
                 .from("citas_medicas")
                 .select("id_cita")
-                .eq("id_consultorio", idConsultorio)
-                .eq("fecha_cita", fechaCita)
+                .eq("id_consultorio", id_consultorio)
+                .eq("fecha_cita", fecha_cita)
                 .maybeSingle();
 
             if (consultorioConflict?.data) return "El consultorio ya tiene una cita en este horario.";

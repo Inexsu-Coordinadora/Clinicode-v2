@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { ServicioConsultarCitasPacienteRepositorioSupabase } from "../../core/infraestructura/repositorios/servicioConsultarCitasPacienteRepositorioSupabase.js";
-import { ServicioConsultarCitasPacienteCasoUso } from "../../core/aplicacion/casoUsoServicioConsultarCitasPaciente/servicioConsultarCitasPaciente.js";
-import { ServicioConsultarCitasPacienteEsquema } from "../../core/infraestructura/esquemas/ServicioConsultarCitasPacienteEsquema.js";
-import {respuestaExitosa,respuestaError} from "../../common/respuestaHttp.js";
-import { StatusCode } from "../../common/statusCode.js";
-import { solicitudInvalida } from "../../common/erroresComunes.js";
+import { ServicioConsultarCitasPacienteRepositorioSupabase } from "../../core/infraestructura/repositorios/servicioConsultarCitasPacienteRepositorioSupabase";
+import { ServicioConsultarCitasPacienteCasoUso } from "../../core/aplicacion/casoUsoServicioConsultarCitasPaciente/servicioConsultarCitasPaciente";
+import { ServicioConsultarCitasPacienteEsquema } from "../../core/infraestructura/esquemas/ServicioConsultarCitasPacienteEsquema";
+import {respuestaExitosa,respuestaError} from "../../common/respuestaHttp";
+import { StatusCode } from "../../common/statusCode";
+import { solicitudInvalida } from "../../common/erroresComunes";
 
 const repo = new ServicioConsultarCitasPacienteRepositorioSupabase();
 const casoUso = new ServicioConsultarCitasPacienteCasoUso(repo);

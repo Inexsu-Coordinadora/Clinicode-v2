@@ -1,15 +1,15 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { CrearPaciente } from "../../core/aplicacion/pacienteCasoUso/CrearPaciente.js";
-import { ListarPacientes } from "../../core/aplicacion/pacienteCasoUso/ListarPacientes.js";
-import { ObtenerPacientePorId } from "../../core/aplicacion/pacienteCasoUso/ObtenerPacientePorId.js";
-import { ActualizarPaciente } from "../../core/aplicacion/pacienteCasoUso/ActualizarPaciente.js";
-import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/EliminarPaciente.js";
-import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema.js";
-import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase.js";
+import { CrearPaciente } from "../../core/aplicacion/pacienteCasoUso/CrearPaciente";
+import { ListarPacientes } from "../../core/aplicacion/pacienteCasoUso/ListarPacientes";
+import { ObtenerPacientePorId } from "../../core/aplicacion/pacienteCasoUso/ObtenerPacientePorId";
+import { ActualizarPaciente } from "../../core/aplicacion/pacienteCasoUso/ActualizarPaciente";
+import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/EliminarPaciente";
+import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema";
+import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase";
 import { ZodError } from "zod";
-import { StatusCode } from "../../common/statusCode.js";
-import { respuestaError, respuestaExitosa} from "../../common/respuestaHttp.js";
-import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
+import { StatusCode } from "../../common/statusCode";
+import { respuestaError, respuestaExitosa} from "../../common/respuestaHttp";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes";
 
 
 const repo = new PacienteRepositorioSupaBase();
@@ -31,10 +31,6 @@ export async function crearPacienteControlador(
     return reply
     .code(StatusCode.EXITO)
     .send(respuestaExitosa(idNuevoPaciente,"Paciente creado correctamente"));
-    return reply.code(201).send({
-        mensaje: "Paciente creado correctamente",
-        id_paciente: idNuevoPaciente
-    });
   } catch (err) {
     if (err instanceof ZodError) {
       return reply
@@ -67,11 +63,11 @@ export async function listarPacienesControlador (
 };
 
 export async function obtenerPacientePorIdControlador (
-  req: FastifyRequest<{ Params: { id_paciente: string } }>, 
+  req: FastifyRequest<{ Params: { idPaciente: string } }>, 
   reply: FastifyReply) {
     try {
-      const { id_paciente } = req.params;
-      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(id_paciente);
+      const { idPaciente } = req.params;
+      const pacienteEncontrado = await obtenerPacientePorIdCaso.ejecutar(idPaciente);
 
       if (!pacienteEncontrado) {
         return reply
@@ -90,13 +86,13 @@ export async function obtenerPacientePorIdControlador (
 };
 
 export async function actualizarPacienteControlador(
-  req: FastifyRequest<{ Params: { id_paciente: string }; Body: PacienteDTO }>, 
+  req: FastifyRequest<{ Params: { idPaciente: string }; Body: PacienteDTO }>, 
   reply: FastifyReply){
     try{
-      const { id_paciente} = req.params;
+      const { idPaciente} = req.params;
       const nuevoPaciente = CrearPacienteEsquema.parse(req.body);
       const pacienteActualizado = await actualizarPacienteCaso.ejecutar(
-        id_paciente,
+        idPaciente,
         nuevoPaciente);
 
         if (!pacienteActualizado) {
@@ -117,22 +113,18 @@ export async function actualizarPacienteControlador(
   };
 
   export async function eliminarPacienteControlador (
-    req: FastifyRequest<{Params: {id_paciente: string}}>,
+    req: FastifyRequest<{Params: {idPaciente: string}}>,
     reply: FastifyReply) {
       try {
-        const {id_paciente} = req.params;
-        await eliminarPacienteCaso.ejecutar(id_paciente);
+        const {idPaciente} = req.params;
+        await eliminarPacienteCaso.ejecutar(idPaciente);
 
         return reply
         .code(StatusCode.EXITO)
         .send(respuestaExitosa(idPaciente,"Paciente eliminado correctamente"));
-        return reply.code(200).send({
-          mensaje: "Paciente eliminado correctamente",
-          id_paciente: id_paciente
-        });
       } catch (err){
         return reply
         .code(StatusCode.ERROR_SERVIDOR)
-        .send(`Error al eliminar el paciente: ${err instanceof Error ? err.message : String(err)}`);
+        .send(errorServidor(`Error al eliminar el paciente: ${err instanceof Error ? err.message : String(err)}`));
       }
     };

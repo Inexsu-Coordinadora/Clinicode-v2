@@ -1,4 +1,4 @@
-import { IConsultarCitasPaciente } from "../servicioConsultarCitasPaciente/IConsultarCitasPaciente.js";
+import { IConsultarCitasPaciente } from "../servicioConsultarCitasPaciente/IConsultarCitasPaciente";
 
 export class CitaMedica implements IConsultarCitasPaciente {
   id_cita: string;

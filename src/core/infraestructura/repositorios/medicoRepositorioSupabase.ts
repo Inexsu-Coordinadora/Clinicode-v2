@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
 import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
 import { supabase } from "../cliente-db/clienteSupabase.js";
 import { MedicoDTO } from "../esquemas/MedicoEsquema.js";
 import { randomUUID } from "crypto";
+=======
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import 'dotenv/config';
+>>>>>>> 6bead998ab38543fc56ee8f168263f7ba2758d26
 
 
 export class MedicoRepositorioSupabase implements IMedicosRepositorio {

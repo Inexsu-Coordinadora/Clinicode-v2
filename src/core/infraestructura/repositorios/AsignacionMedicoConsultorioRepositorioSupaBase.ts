@@ -1,7 +1,7 @@
-import { IAsignacionMedicoConsultorio } from "../../dominio/entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio.js";
-import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio.js";
-import { supabase } from "../cliente-db/clienteSupabase.js";
-import { AsignacionMedicoConsultorioDTO } from "../esquemas/AsignacionMedicoConsultorioEsquema.js";
+import { IAsignacionMedicoConsultorio } from "../../dominio/entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio";
+import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio";
+import { supabase } from "../cliente-db/clienteSupabase";
+import { AsignacionMedicoConsultorioDTO } from "../esquemas/AsignacionMedicoConsultorioEsquema";
 import { v4 as uuidv4 } from "uuid";
 export class AsignacionMedicoConsultorioRepositorioSupaBase implements IAsignacionMedicoConsultorioRepositorio {
 

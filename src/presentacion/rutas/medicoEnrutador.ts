@@ -1,13 +1,12 @@
 import { FastifyInstance } from "fastify";
-import { MedicoControlador } from "../controladores/medicoControlador.js";
-import { IMedicosRepositorio } from "../../core/dominio/repository/IMedicoRepositorio.js";
-import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
-
-import { CrearMedico } from "../../core/aplicacion/casoUsoMedico/crearMedico.js";
-import { ListarMedicos } from "../../core/aplicacion/casoUsoMedico/listarMedico.js";
-import { ObtenerMedicoPorId } from "../../core/aplicacion/casoUsoMedico/obtenerMedicoPorId.js";
-import { ActualizarMedico } from "../../core/aplicacion/casoUsoMedico/actualizaMedico.js";
-import { EliminarMedico } from "../../core/aplicacion/casoUsoMedico/eliminarMedico.js";
+import { MedicoControlador } from "../controladores/medicoControlador";
+import { IMedicosRepositorio } from "../../core/dominio/repository/IMedicoRepositorio";
+import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
+import { CrearMedico } from "../../core/aplicacion/casoUsoMedico/crearMedico";
+import { ListarMedicos } from "../../core/aplicacion/casoUsoMedico/listarMedico";
+import { ObtenerMedicoPorId } from "../../core/aplicacion/casoUsoMedico/obtenerMedicoPorId";
+import { ActualizarMedico } from "../../core/aplicacion/casoUsoMedico/actualizaMedico";
+import { EliminarMedico } from "../../core/aplicacion/casoUsoMedico/eliminarMedico";
 
 function medicoEnrutador(
     app: FastifyInstance,

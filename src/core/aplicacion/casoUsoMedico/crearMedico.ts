@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
-import { Medico } from "../../dominio/entidades/medicos/Medico.js";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { Medico } from "../../dominio/entidades/medicos/Medico";
 
 export class CrearMedico {
   constructor(private medicosRepositorio: IMedicosRepositorio) {}

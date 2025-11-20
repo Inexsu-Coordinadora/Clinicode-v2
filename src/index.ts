@@ -1,4 +1,4 @@
-import app from './presentacion/app.js';
+import app from './presentacion/app';
 import dotenv from 'dotenv';
 
 dotenv.config();

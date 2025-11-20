@@ -1,4 +1,4 @@
-import { ConsultorioRepositorioSupabase } from "../../infraestructura/repositorios/consultorioRepositorioSupabase.js";
+import { ConsultorioRepositorioSupabase } from "../../infraestructura/repositorios/consultorioRepositorioSupabase";
 
 export class ActualizarConsultorio {
     constructor(private repo: ConsultorioRepositorioSupabase) { }

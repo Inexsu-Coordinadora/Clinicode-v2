@@ -1,11 +1,11 @@
-import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente.js";
-import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio.js";
+import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente";
+import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
 
 export class ActualizarPaciente {
     constructor(private readonly repo: IPacienteRepositorio) {}
 
-    async ejecutar(id_paciente: string, datosPaciente: IPaciente): Promise<IPaciente | null>{
-        const pacienteActualizado = await this.repo.actualizarPaciente(id_paciente,datosPaciente);
+    async ejecutar(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente | null>{
+        const pacienteActualizado = await this.repo.actualizarPaciente(idPaciente,datosPaciente);
         return pacienteActualizado || null;
     }
 };

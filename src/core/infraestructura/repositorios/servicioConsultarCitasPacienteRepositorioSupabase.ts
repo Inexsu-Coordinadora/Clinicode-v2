@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { supabase } from "../cliente-db/clienteSupabase.js";
 import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio.js";
 import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente.js";
 import { StatusCode } from "../../../common/statusCode.js";
+=======
+import { createClient } from "@supabase/supabase-js";
+import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio";
+import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente";
+import { StatusCode } from "../../../common/statusCode";
+>>>>>>> 6bead998ab38543fc56ee8f168263f7ba2758d26
 
 export class ServicioConsultarCitasPacienteRepositorioSupabase
   implements IServicioConsultarCitasPacientesRepositorio
