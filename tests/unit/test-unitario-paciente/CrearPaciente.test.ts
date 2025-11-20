@@ -1,6 +1,6 @@
-import { CrearPaciente } from "../../src/core/aplicacion/pacienteCasoUso/CrearPaciente";
-import { IPacienteRepositorio } from "../../src/core/dominio/repository/IPacienteRepositorio";
-import { IPaciente } from "../../src/core/dominio/entidades/pacientes/Ipaciente";
+import { CrearPaciente } from "../../../src/core/aplicacion/pacienteCasoUso/CrearPaciente";
+import { IPacienteRepositorio } from "../../../src/core/dominio/repository/IPacienteRepositorio";
+import { IPaciente } from "../../../src/core/dominio/entidades/pacientes/Ipaciente";
 
 describe("Pruebas unitarias CrearPaciente", () => {
 
@@ -19,7 +19,7 @@ beforeEach(() => {
     crearPacienteCasoUso = new CrearPaciente(repoMock);
 });
 
-test("Debe crear un paciente y retornar el ID", async () => {
+test("Crear un paciente y retornar el ID", async () => {
     const datosPaciente: IPaciente = {
         tipoDocumento: "CC",
         numeroDocumento: "123456789",
@@ -31,7 +31,7 @@ test("Debe crear un paciente y retornar el ID", async () => {
         direccion: "Calle 123",
     };
 
-    const idGenerado = "paciente-1001";
+    const idGenerado = "7e757e3e-ab7c-4e98-880a-9d6733f6742a";
 
     repoMock.crearPaciente.mockResolvedValue(idGenerado);
 
@@ -42,7 +42,7 @@ test("Debe crear un paciente y retornar el ID", async () => {
     expect(result).toBe(idGenerado);
 });
 
-test("Debe lanzar un error cuando el repositorio falle", async () => {
+test("Lanzar un error cuando el repositorio falle", async () => {
     const datosPaciente: IPaciente = {
         tipoDocumento: "CC",
         numeroDocumento: "987654321",
