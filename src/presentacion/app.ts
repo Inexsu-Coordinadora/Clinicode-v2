@@ -3,7 +3,7 @@ import cors from '@fastify/cors';
 import { pacienteEnrutador } from './rutas/pacienteEnrutador.js';
 import { medicosEnrutador } from './rutas/medicoEnrutador.js';
 import { consultorioEnrutador } from './rutas/consultorioEnrutador.js';
-import { citasMedicasEnrutador } from './rutas/CitasMedicasEnrutador.js
+import { citasMedicasEnrutador } from './rutas/CitasMedicasEnrutador.js';
 import { servicioConsultarCitasPacienteEnrutador } from './rutas/servicioConsultarCitasPacienteEnrutador.js';
 import { asignacionMedicoConsultorioEnrutador } from './rutas/asignacionMedicoConsultorioEnrutador.js';
 

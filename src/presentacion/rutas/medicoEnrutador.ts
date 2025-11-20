@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { MedicoControlador } from "../controladores/medicoControlador.js";
 import { IMedicosRepositorio } from "../../core/dominio/repository/IMedicoRepositorio.js";
-import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
+import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
 
 import { CrearMedico } from "../../core/aplicacion/casoUsoMedico/crearMedico.js";
 import { ListarMedicos } from "../../core/aplicacion/casoUsoMedico/listarMedico.js";
@@ -21,7 +21,7 @@ function medicoEnrutador(
 }
 
 export async function medicosEnrutador(app: FastifyInstance) {
-    const medicosRepositorio: IMedicosRepositorio = new MedicoRepositorio();
+    const medicosRepositorio: IMedicosRepositorio = new MedicoRepositorioSupabase();
 
     const crearMedico = new CrearMedico(medicosRepositorio);
     const listarMedicos = new ListarMedicos(medicosRepositorio);
