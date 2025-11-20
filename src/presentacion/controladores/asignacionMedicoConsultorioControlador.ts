@@ -6,7 +6,7 @@ import { ActualizarAsignacionMedicoConsultorio } from "../../core/aplicacion/asi
 import { EliminarAsignacionMedicoConsultorio } from "../../core/aplicacion/asignacionMedicoConsultorioCasoUso/EliminarAsignacionMedicoConsultorio";
 import { AsignacionMedicoConsultorioDTO,CrearAsignacionMedicoConsultorioEsquema } from "../../core/infraestructura/esquemas/AsignacionMedicoConsultorioEsquema";
 import { AsignacionMedicoConsultorioRepositorioSupaBase } from "../../core/infraestructura/repositorios/AsignacionMedicoConsultorioRepositorioSupaBase";
-import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
+import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
 import { ConsultorioRepositorioSupabase } from "../../core/infraestructura/repositorios/consultorioRepositorioSupabase";
 import { ZodError } from "zod";
 import { StatusCode } from "../../common/statusCode";
@@ -14,9 +14,10 @@ import { respuestaExitosa} from "../../common/respuestaHttp";
 import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes";
 
 
+
 const repoAsignaciones = new AsignacionMedicoConsultorioRepositorioSupaBase();
 const repoConsultorio = new ConsultorioRepositorioSupabase();
-const repoMedico = new MedicoRepositorio();
+const repoMedico = new MedicoRepositorioSupabase();
 
 const crearAsignacionMedicoConsultorioCaso = new CrearAsignacionMedicoConsultorio(repoAsignaciones,repoMedico,repoConsultorio);
 const listarAsignacionMedicoConsultorioCaso = new ListarAsignacionMedicoConsultorio(repoAsignaciones);

@@ -6,6 +6,7 @@ import {respuestaExitosa,respuestaError} from "../../common/respuestaHttp";
 import { StatusCode } from "../../common/statusCode";
 import { solicitudInvalida } from "../../common/erroresComunes";
 
+
 const repo = new ServicioConsultarCitasPacienteRepositorioSupabase();
 const casoUso = new ServicioConsultarCitasPacienteCasoUso(repo);
 
@@ -48,6 +49,6 @@ export const obtenerCitasPorPaciente = async (
 
     return res
       .status(StatusCode.ERROR_SERVIDOR)
-      .send(respuestaError("Error interno del servidor"));
+      .send(respuestaError("Paciente no encontrado"));
   }
 };

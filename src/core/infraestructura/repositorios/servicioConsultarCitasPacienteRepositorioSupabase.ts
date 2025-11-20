@@ -1,18 +1,10 @@
-<<<<<<< HEAD
-import { supabase } from "../cliente-db/clienteSupabase.js";
-import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio.js";
-import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente.js";
-import { StatusCode } from "../../../common/statusCode.js";
-=======
-import { createClient } from "@supabase/supabase-js";
 import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio";
 import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente";
 import { StatusCode } from "../../../common/statusCode";
->>>>>>> 6bead998ab38543fc56ee8f168263f7ba2758d26
+import { supabase } from "../cliente-db/clienteSupabase";
 
-export class ServicioConsultarCitasPacienteRepositorioSupabase
-  implements IServicioConsultarCitasPacientesRepositorio
-{
+export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServicioConsultarCitasPacientesRepositorio{
+
   async obtenerCitasPorPaciente(
     numeroDocumento: string
   ): Promise<{ mensaje: string; citas: IConsultarCitasPaciente[] }> {
@@ -24,16 +16,12 @@ export class ServicioConsultarCitasPacienteRepositorioSupabase
       .single();
 
     if (errorPaciente || !paciente) {
-      throw {
-        codigo: StatusCode.NO_ENCONTRADO,
-        mensaje: "Paciente no encontrado",
-      };
+      throw new Error("Paciente no encontrado" + StatusCode.NO_ENCONTRADO);
     }
 
     const { data: citas, error: errorCitas } = await supabase
       .from("citas_medicas")
-      .select(
-        `
+      .select(`
         id_cita,
         fecha_cita,
         estado,
@@ -46,16 +34,12 @@ export class ServicioConsultarCitasPacienteRepositorioSupabase
           nombre,
           ubicacion
         )
-      `
-      )
+      `)
       .eq("id_paciente", paciente.id_paciente)
       .order("fecha_cita", { ascending: true });
 
-    if (errorCitas) {
-      throw {
-        codigo: StatusCode.ERROR_SERVIDOR,
-        mensaje: "Error al obtener las citas",
-      };
+     if (errorCitas) {
+      throw new Error ("Error al obtener las citas" + StatusCode.ERROR_SERVIDOR);
     }
 
     if (!citas || citas.length === 0) {
@@ -86,4 +70,3 @@ export class ServicioConsultarCitasPacienteRepositorioSupabase
     };
   }
 }
-

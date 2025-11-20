@@ -8,6 +8,7 @@ import { ObtenerMedicoPorId } from "../../core/aplicacion/casoUsoMedico/obtenerM
 import { ActualizarMedico } from "../../core/aplicacion/casoUsoMedico/actualizaMedico";
 import { EliminarMedico } from "../../core/aplicacion/casoUsoMedico/eliminarMedico";
 
+
 function medicoEnrutador(
     app: FastifyInstance,
     medicoControlador: MedicoControlador

@@ -36,3 +36,5 @@ export const CrearMedicoEsquema = z.object({
 });
 
 export type MedicoDTO = z.infer<typeof CrearMedicoEsquema>;
+
+
