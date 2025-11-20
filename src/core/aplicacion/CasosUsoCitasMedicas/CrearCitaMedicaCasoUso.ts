@@ -1,6 +1,6 @@
-import { CitasMedicas } from "../../dominio/entidades/CitasMedicas/CitasMedicas.js";
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
+import { CitasMedicas } from "../../dominio/entidades/CitasMedicas/CitasMedicas";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
 export class CrearCitaMedicaCasoUso {
     constructor(private repositorio: ICitasMedicasRepositorio) { }
 

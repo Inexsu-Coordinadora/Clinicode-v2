@@ -3,7 +3,7 @@ import {
     actualizarCitaMedicaControlador, cancelarOReprogramarCitaControlador,
     crearCitaMedicaControlador, eliminarCitaMedicaControlador, listarCitasMedicasControlador,
     obtenerCitaMedicaPorIdControlador
-} from "../controladores/CitasMedicasControlador.js";
+} from "../controladores/CitasMedicasControlador";
 
 export async function citasMedicasEnrutador(app: FastifyInstance) {
 

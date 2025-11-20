@@ -1,4 +1,4 @@
-import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio.js";
+import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
 
 export class EliminarPaciente {
     constructor(private readonly repo: IPacienteRepositorio) {}

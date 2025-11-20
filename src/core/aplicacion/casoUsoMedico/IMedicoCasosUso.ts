@@ -1,5 +1,5 @@
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
-import { MedicoDTO } from "../../infraestructura/esquemas/MedicoEsquema.js";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
+import { MedicoDTO } from "../../infraestructura/esquemas/MedicoEsquema";
 
 export interface IMedicoCasosUso {
   listarMedicos(limite?: number): Promise<IMedico[]>;

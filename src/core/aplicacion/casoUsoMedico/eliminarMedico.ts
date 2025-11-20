@@ -1,4 +1,4 @@
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
 
 export class EliminarMedico {
   constructor(private medicosRepositorio: IMedicosRepositorio) {}

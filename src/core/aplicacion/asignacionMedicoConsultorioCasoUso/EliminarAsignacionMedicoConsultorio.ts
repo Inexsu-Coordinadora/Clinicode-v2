@@ -1,4 +1,4 @@
-import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio.js";
+import { IAsignacionMedicoConsultorioRepositorio } from "../../dominio/repository/IAsignacionMedicoConsultorioRepositorio";
 
 export class EliminarAsignacionMedicoConsultorio {
     constructor(private readonly repo: IAsignacionMedicoConsultorioRepositorio){}

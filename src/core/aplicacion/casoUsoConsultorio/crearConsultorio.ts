@@ -1,5 +1,5 @@
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio.js";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio";
 
 
 export class CrearConsultorio {

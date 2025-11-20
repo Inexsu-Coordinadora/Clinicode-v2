@@ -1,4 +1,4 @@
-import { IConsultarCitasPaciente } from "../entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente.js";
+import { IConsultarCitasPaciente } from "../entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente";
 
 export interface IServicioConsultarCitasPacientesRepositorio {
   obtenerCitasPorPaciente(

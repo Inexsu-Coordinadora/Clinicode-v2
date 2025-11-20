@@ -1,4 +1,4 @@
-import { IAsignacionMedicoConsultorio } from "./IAsignacionMedicoConsultorio.js";
+import { IAsignacionMedicoConsultorio } from "./IAsignacionMedicoConsultorio";
 
 export class AsignacionMedicoConsultorio implements IAsignacionMedicoConsultorio{
     idMedico: string;

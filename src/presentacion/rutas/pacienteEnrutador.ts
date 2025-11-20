@@ -1,5 +1,5 @@
-import { crearPacienteControlador, listarPacienesControlador, obtenerPacientePorIdControlador } from "../controladores/pacienteControlador.js";
-import { actualizarPacienteControlador, eliminarPacienteControlador } from "../controladores/pacienteControlador.js";
+import { crearPacienteControlador, listarPacienesControlador, obtenerPacientePorIdControlador } from "../controladores/pacienteControlador";
+import { actualizarPacienteControlador, eliminarPacienteControlador } from "../controladores/pacienteControlador";
 import { FastifyInstance } from "fastify";
 
 export async function pacienteEnrutador(app: FastifyInstance) {

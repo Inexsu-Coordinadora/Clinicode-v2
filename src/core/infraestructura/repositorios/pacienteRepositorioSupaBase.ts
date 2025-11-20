@@ -1,7 +1,7 @@
-import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio.js";
-import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente.js";
-import { supabase } from "../cliente-db/clienteSupabase.js";
-import { PacienteDTO } from "../esquemas/PacienteEsquema.js";
+import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
+import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente";
+import { supabase } from "../cliente-db/clienteSupabase";
+import { PacienteDTO } from "../esquemas/PacienteEsquema";
 import { v4 as uuidv4 } from "uuid";
 
 

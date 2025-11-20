@@ -1,5 +1,5 @@
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
 
 
 export class ActualizarCitaMedicaCasoUso {

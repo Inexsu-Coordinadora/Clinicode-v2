@@ -1,5 +1,5 @@
-import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente.js";
-import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio.js";
+import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente";
+import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
 
 export class ActualizarPaciente {
     constructor(private readonly repo: IPacienteRepositorio) {}

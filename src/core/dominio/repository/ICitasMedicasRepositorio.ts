@@ -1,4 +1,4 @@
-import { ICitasMedicas } from "../entidades/CitasMedicas/ICitasMedicas.js";
+import { ICitasMedicas } from "../entidades/CitasMedicas/ICitasMedicas";
 
 export interface ICitasMedicasRepositorio {
     crearCitaMedica(citaMedica: ICitasMedicas): Promise<ICitasMedicas>;

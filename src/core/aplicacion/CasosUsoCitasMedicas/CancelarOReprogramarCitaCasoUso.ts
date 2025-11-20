@@ -1,6 +1,6 @@
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { DatosReprogramacion } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { DatosReprogramacion } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
 
 export class CancelarOReprogramarCitaCasoUso {
     constructor(

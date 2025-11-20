@@ -1,5 +1,5 @@
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import 'dotenv/config';
 

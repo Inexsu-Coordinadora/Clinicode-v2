@@ -1,15 +1,15 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { CrearPaciente } from "../../core/aplicacion/pacienteCasoUso/CrearPaciente.js";
-import { ListarPacientes } from "../../core/aplicacion/pacienteCasoUso/ListarPacientes.js";
-import { ObtenerPacientePorId } from "../../core/aplicacion/pacienteCasoUso/ObtenerPacientePorId.js";
-import { ActualizarPaciente } from "../../core/aplicacion/pacienteCasoUso/ActualizarPaciente.js";
-import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/EliminarPaciente.js";
-import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema.js";
-import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase.js";
+import { CrearPaciente } from "../../core/aplicacion/pacienteCasoUso/CrearPaciente";
+import { ListarPacientes } from "../../core/aplicacion/pacienteCasoUso/ListarPacientes";
+import { ObtenerPacientePorId } from "../../core/aplicacion/pacienteCasoUso/ObtenerPacientePorId";
+import { ActualizarPaciente } from "../../core/aplicacion/pacienteCasoUso/ActualizarPaciente";
+import { EliminarPaciente } from "../../core/aplicacion/pacienteCasoUso/EliminarPaciente";
+import { PacienteDTO, CrearPacienteEsquema } from "../../core/infraestructura/esquemas/PacienteEsquema";
+import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase";
 import { ZodError } from "zod";
-import { StatusCode } from "../../common/statusCode.js";
-import { respuestaError, respuestaExitosa} from "../../common/respuestaHttp.js";
-import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes.js";
+import { StatusCode } from "../../common/statusCode";
+import { respuestaError, respuestaExitosa} from "../../common/respuestaHttp";
+import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes";
 
 
 const repo = new PacienteRepositorioSupaBase();

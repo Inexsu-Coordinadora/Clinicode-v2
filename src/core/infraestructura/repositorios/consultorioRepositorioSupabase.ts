@@ -1,6 +1,6 @@
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio.js";
-import { supabase } from "../cliente-db/clienteSupabase.js";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio";
+import { supabase } from "../cliente-db/clienteSupabase";
 
 
 

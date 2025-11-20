@@ -3,7 +3,7 @@ import {
     crearConsultorioControlador,
     eliminarConsultorioControlador,
     listarConsultoriosControlador
-} from '../controladores/consultorioControlador.js';
+} from '../controladores/consultorioControlador';
 import { FastifyInstance } from 'fastify';
 
 
