@@ -1,6 +1,7 @@
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
-import { supabase } from "../cliente-db/clienteSupabase";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
+import { supabase } from "../cliente-db/clienteSupabase.js";
+import { ActualizarCitaMedicaDTO } from "../esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema.js";
 
 export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio {
 
@@ -12,7 +13,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
                 id_paciente: citaMedica.id_paciente,
                 id_medico: citaMedica.id_medico,
                 id_consultorio: citaMedica.id_consultorio,
-                fecha_cita: (citaMedica.fecha_cita instanceof Date) ? citaMedica.fecha_cita.toISOString() : citaMedica.fecha_cita,
+                fecha_cita: citaMedica.fecha_cita,
                 motivo: citaMedica.motivoCita,
                 estado: citaMedica.estado ?? "Programada",
                 creada_en: citaMedica.creadaEn ?? new Date().toISOString(),
@@ -28,7 +29,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
             id_paciente: data.id_paciente,
             id_medico: data.id_medico,
             id_consultorio: data.id_consultorio,
-            fecha_cita: new Date(data.fecha_cita),
+            fecha_cita: data.fecha_cita,
             motivoCita: data.motivo,
             estado: data.estado,
             creadaEn: data.creada_en,
@@ -48,7 +49,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
             id_paciente: d.id_paciente,
             id_medico: d.id_medico,
             id_consultorio: d.id_consultorio,
-            fecha_cita: new Date(d.fecha_cita),
+            fecha_cita: d.fecha_cita,
             motivoCita: d.motivo,
             estado: d.estado,
             creadaEn: d.creada_en,
@@ -70,7 +71,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
             id_paciente: data.id_paciente,
             id_medico: data.id_medico,
             id_consultorio: data.id_consultorio,
-            fecha_cita: new Date(data.fecha_cita),
+            fecha_cita: data.fecha_cita,
             motivoCita: data.motivo,
             estado: data.estado,
             creadaEn: data.creada_en,
@@ -78,12 +79,12 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         };
     }
 
-    async actualizarCitaMedica(id_cita: string, datosCita: ICitasMedicas): Promise<ICitasMedicas | null> {
+    async actualizarCitaMedica(id_cita: string, datosCita: ActualizarCitaMedicaDTO): Promise<ICitasMedicas | null> {
         const payload: any = {
             id_paciente: datosCita.id_paciente,
             id_medico: datosCita.id_medico,
             id_consultorio: datosCita.id_consultorio,
-            fecha_cita: (datosCita.fecha_cita instanceof Date) ? datosCita.fecha_cita.toISOString() : datosCita.fecha_cita,
+            fecha_cita: datosCita.fecha_cita,
             motivo: datosCita.motivoCita,
             estado: datosCita.estado,
             actualizada_en: datosCita.actualizadaEn ?? new Date().toISOString(),
@@ -103,7 +104,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
             id_paciente: data.id_paciente,
             id_medico: data.id_medico,
             id_consultorio: data.id_consultorio,
-            fecha_cita: new Date(data.fecha_cita),
+            fecha_cita: data.fecha_cita,
             motivoCita: data.motivo,
             estado: data.estado,
             creadaEn: data.creada_en,

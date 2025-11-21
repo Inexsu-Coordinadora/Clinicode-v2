@@ -1,11 +1,13 @@
+import { EstadoCita } from "../../../../common/estadoCita.js";
+
 export interface ICitasMedicas {
     id_cita: string;
     id_paciente: string;
     id_medico: string;
     id_consultorio: string;
-    fecha_cita: Date;
+    fecha_cita: string;
     motivoCita: string;
-    estado: 'Atendida' | 'Programada' | 'Cancelada' | 'Reprogramada';
+    estado: EstadoCita;
 
     creadaEn: string;
     actualizadaEn: string | null;
