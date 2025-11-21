@@ -122,21 +122,6 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         return true;
     }
 
-    async obtenerPacientePorId(id_paciente: string) {
-        const { data } = await supabase.from("pacientes").select("id_paciente").eq("id_paciente", id_paciente).maybeSingle();
-        return data;
-    }
-
-    async obtenerMedicoPorId(id_medico: string) {
-        const { data } = await supabase.from("medicos").select("id_medico").eq("id_medico", id_medico).maybeSingle();
-        return data;
-    }
-
-    async obtenerConsultorioPorId(id_consultorio: string) {
-        const { data } = await supabase.from("consultorios").select("id_consultorio").eq("id_consultorio", id_consultorio).maybeSingle();
-        return data;
-    }
-
     async validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null> {
         const { id_medico, id_paciente, id_consultorio, fecha_cita } = cita;
 
