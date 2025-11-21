@@ -6,12 +6,12 @@ describe("TEST INTEGRACIÓN - Crear Médico", () => {
   let app: any;
   const timestamp = Date.now();
   const datos = {
-    nombres: "Diego",
+    nombres: "Thomas",
     apellidos: "Higuita",
     numero_licencia: `${timestamp}`, 
     id_especialidad: "0c1a79e3-2b07-4f52-a06e-c861ee4c4e97",
-    telefono: "3001234567",
-    correo: `diegoHiguita.@test.com`,
+    telefono: "3002126321",
+    correo: `Thomashiguita@test.com`,
   };
 
   beforeAll(async () => {
@@ -21,7 +21,7 @@ describe("TEST INTEGRACIÓN - Crear Médico", () => {
   });
 
   afterAll(async () => {
-    //await supabase.from("medicos").delete().eq("numero_licencia", datos.numero_licencia);
+    await supabase.from("medicos").delete().eq("numero_licencia", datos.numero_licencia);
     await app.close();
   });
 

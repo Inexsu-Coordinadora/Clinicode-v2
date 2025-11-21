@@ -1,6 +1,7 @@
 import { CrearMedico } from "../../../src/core/aplicacion/casoUsoMedico/crearMedico";
 import { IMedicosRepositorio } from "../../../src/core/dominio/repository/IMedicoRepositorio";
 import { IMedico } from "../../../src/core/dominio/entidades/medicos/IMedico";
+import { timeStamp } from "node:console";
 
 describe("Pruebas unitarias CrearMedico", () => {
 
@@ -26,7 +27,7 @@ describe("Pruebas unitarias CrearMedico", () => {
       id_medico: "", 
       nombres: "Carlos",
       apellidos: "Romero",
-      numero_licencia: "LIC-9988",
+      numero_licencia: `${timeStamp}`, 
       id_especialidad: "e65ddf7c-6c18-4bb7-ad3e-3a1d74e54b22",
       telefono: "3101112233",
       correo: "carlos@example.com",
