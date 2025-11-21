@@ -2,7 +2,7 @@ import { z } from "zod";
 import { EstadosCita } from "../../../../common/estadoCita";
 
 export const CrearCitaMedicaEsquema = z.object({
-    id_paciente: z.uuid(),
+    id_paciente: z.string(),
     id_medico: z.uuid(),
     id_consultorio: z.uuid(),
     fecha_cita: z.string(),

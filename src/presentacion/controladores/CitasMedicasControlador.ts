@@ -17,6 +17,8 @@ import { DatosReprogramacion } from "../../core/dominio/entidades/CitasMedicas/I
 import { FastifyRequest, FastifyReply } from "fastify";
 import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
 import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase";
+import { CrearCitaMedicaEsquema } from "../../core/infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema";
+import { ActualizarCitaMedicaEsquema } from "../../core/infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema";
 
 
 
@@ -36,21 +38,29 @@ const crearCitaCaso = new CrearCitaMedicaCasoUso(repoCitas, repoPacientes, repoM
 
 export async function crearCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-        const datos = req.body as any;
 
-        if (!datos?.idPaciente || !datos?.idMedico || !datos?.fechaCita || !datos?.motivoCita) {
-            return reply
-                .code(StatusCode.NO_ENCONTRADO)
-                .send(noEncontrado("Datos incompletos. Se requieren idPaciente, idMedico, fechaCita y motivoCita."));
-        }
+        const body = req.body as any;
+        const datos = {
+            id_paciente: body.idPaciente,
+            id_medico: body.idMedico,
+            id_consultorio: body.idConsultorio,
+            fecha_cita: body.fechaCita,
+            motivoCita: body.motivoCita,
+        };
 
-        const cita = await crearCitaCaso.ejecutar(datos);
+        const datosValidados = CrearCitaMedicaEsquema.parse(datos);
+        const cita = await crearCitaCaso.ejecutar(datosValidados);
 
         return reply
             .code(StatusCode.CREADO)
-            .send(respuestaCreacion(cita, "Cita médica creada correctamento."));
+            .send(respuestaCreacion(cita, "Cita médica creada correctamente."));
 
     } catch (error: any) {
+        if (error.name === "ZodError") {
+            return reply
+                .code(StatusCode.SOLICITUD_INCORRECTA)
+                .send(solicitudInvalida(error.errors));
+        }
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
             .send(errorServidor(`Error al crear la cita médica: ${error.message}`));
@@ -103,18 +113,35 @@ export async function obtenerCitaMedicaPorIdControlador(req: FastifyRequest, rep
 
 export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-
         const { id_cita } = req.params as { id_cita: string };
+
         if (!id_cita) {
-            return reply.code(400).send({ mensaje: "Debe proporcionar un id_cita válido." });
+            return reply
+                .code(StatusCode.SOLICITUD_INCORRECTA)
+                .send(solicitudInvalida("Debe proporcionar un id_cita válido."));
         }
-        const datos = req.body as any;
-        if (!datos || Object.keys(datos).length === 0) {
+
+        const body = req.body as any;
+
+        if (!body || Object.keys(body).length === 0) {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
                 .send(solicitudInvalida("No se recibieron datos para actualizar."));
         }
-        const citaActualizada = await actualizarCitaCaso.ejecutar(id_cita, datos);
+
+        const datos = {
+            id_paciente: body.idPaciente ?? undefined,
+            id_medico: body.idMedico ?? undefined,
+            id_consultorio: body.idConsultorio ?? undefined,
+            fecha_cita: body.fechaCita ?? undefined,
+            motivoCita: body.motivoCita ?? undefined
+        };
+
+
+        const datosValidados = ActualizarCitaMedicaEsquema.parse(datos);
+
+        const citaActualizada = await actualizarCitaCaso.ejecutar(id_cita, datosValidados);
+
         if (!citaActualizada) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
@@ -124,7 +151,15 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
         return reply
             .code(StatusCode.EXITO)
             .send(respuestaExitosa(citaActualizada, "Cita médica actualizada correctamente."));
+
     } catch (error: any) {
+
+        if (error.name === "ZodError") {
+            return reply
+                .code(StatusCode.SOLICITUD_INCORRECTA)
+                .send(solicitudInvalida(error.errors));
+        }
+
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
             .send(errorServidor(`Error al actualizar cita médica: ${error.message}`));

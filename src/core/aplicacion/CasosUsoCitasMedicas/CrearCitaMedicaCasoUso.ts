@@ -16,6 +16,7 @@ export class CrearCitaMedicaCasoUso {
 
     async ejecutar(datos: CrearCitaMedicaDTO): Promise<ICitasMedicas> {
 
+
         const paciente = await this.pacienteRepositorio.obtenerPacientePorId(datos.id_paciente);
         if (!paciente) throw new Error("El paciente no existe.");
 
