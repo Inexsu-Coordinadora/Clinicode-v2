@@ -1,6 +1,6 @@
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
-import { ActualizarCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema.js";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
+import { ActualizarCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema";
 
 
 export class ActualizarCitaMedicaCasoUso {

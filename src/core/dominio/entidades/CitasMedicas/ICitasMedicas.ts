@@ -1,4 +1,4 @@
-import { EstadoCita } from "../../../../common/estadoCita.js";
+import { EstadoCita } from "../../../../common/estadoCita";
 
 export interface ICitasMedicas {
     id_cita: string;

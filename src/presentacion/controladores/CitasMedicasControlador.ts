@@ -15,8 +15,8 @@ import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/err
 import { CrearCitaMedicaCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/CrearCitaMedicaCasoUso";
 import { DatosReprogramacion } from "../../core/dominio/entidades/CitasMedicas/ICitasMedicas";
 import { FastifyRequest, FastifyReply } from "fastify";
-import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
-import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase.js";
+import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
+import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase";
 
 
 

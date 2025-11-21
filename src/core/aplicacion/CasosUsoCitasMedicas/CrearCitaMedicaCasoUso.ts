@@ -1,11 +1,11 @@
-import { EstadosCita } from "../../../common/estadoCita.js";
-import { CitasMedicas } from "../../dominio/entidades/CitasMedicas/CitasMedicas.js";
-import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
-import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio.js";
-import { CrearCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema.js";
+import { EstadosCita } from "../../../common/estadoCita";
+import { CitasMedicas } from "../../dominio/entidades/CitasMedicas/CitasMedicas";
+import { ICitasMedicas } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
+import { CrearCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema";
 export class CrearCitaMedicaCasoUso {
     constructor(
         private citaRepositorio: ICitasMedicasRepositorio,

@@ -1,5 +1,4 @@
-import { EstadoCita } from "../../../../common/estadoCita.js";
-import { ICitasMedicas } from "./ICitasMedicas.js";
+import { ICitasMedicas } from "./ICitasMedicas";
 
 export class CitasMedicas implements ICitasMedicas {
     id_cita: string;

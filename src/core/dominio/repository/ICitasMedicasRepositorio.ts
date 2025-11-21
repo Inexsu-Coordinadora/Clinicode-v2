@@ -1,6 +1,6 @@
-import { ActualizarCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema.js";
-import { CrearCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema.js";
-import { ICitasMedicas } from "../entidades/CitasMedicas/ICitasMedicas.js";
+import { ActualizarCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema";
+import { CrearCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema";
+import { ICitasMedicas } from "../entidades/CitasMedicas/ICitasMedicas";
 
 export interface ICitasMedicasRepositorio {
     crearCitaMedica(citaMedica: ICitasMedicas): Promise<ICitasMedicas>;

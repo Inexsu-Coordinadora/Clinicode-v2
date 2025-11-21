@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EstadosCita } from "../../../../common/estadoCita.js";
+import { EstadosCita } from "../../../../common/estadoCita";
 
 export const ActualizarCitaMedicaEsquema = z.object({
     id_paciente: z.uuid().optional(),
