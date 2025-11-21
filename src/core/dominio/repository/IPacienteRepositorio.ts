@@ -4,6 +4,6 @@ export interface IPacienteRepositorio {
     crearPaciente(datosPaciente: IPaciente): Promise<string>;
     listarPacientes(limite?: number): Promise<IPaciente[]>;
     obtenerPacientePorId(idPaciente: string): Promise<IPaciente | null>;
-    actualizarPaciente(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente>;
+    actualizarPaciente(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente | null>;
     eliminarPaciente(idPaciente: string): Promise<void>;
 };

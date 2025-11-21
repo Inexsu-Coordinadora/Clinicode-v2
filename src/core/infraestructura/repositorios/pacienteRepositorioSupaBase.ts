@@ -54,7 +54,7 @@ export class PacienteRepositorioSupaBase implements IPacienteRepositorio {
         return data;
     }
 
-    async actualizarPaciente(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente> {
+    async actualizarPaciente(idPaciente: string, datosPaciente: IPaciente): Promise<IPaciente | null> {
         const { data, error } = await supabase
             .from("pacientes")
             .update({
