@@ -23,7 +23,7 @@ describe("Pruebas unitarias ListarMedicos", () => {
   test("Debe listar médicos correctamente", async () => {
     const medicosMock: IMedico[] = [
       {
-        id_medico: "1",
+        id_medico: "",
         nombres: "Juan",
         apellidos: "Perez",
         numero_licencia: `${timeStamp}`, 
@@ -32,7 +32,7 @@ describe("Pruebas unitarias ListarMedicos", () => {
         correo: "juan@test.com",
       },
       {
-        id_medico: "2",
+        id_medico: "",
         nombres: "Maria",
         apellidos: "Gomez",
         numero_licencia: `${timeStamp}`, 

@@ -22,7 +22,7 @@ describe("Pruebas unitarias ObtenerMedicoPorId", () => {
 
   test("Debe retornar un médico si existe", async () => {
     const medicoMock: IMedico = {
-      id_medico: "123",
+      id_medico: "",
       nombres: "Carlos",
       apellidos: "Lopez",
       numero_licencia: `${timeStamp}`, 
@@ -33,18 +33,18 @@ describe("Pruebas unitarias ObtenerMedicoPorId", () => {
 
     repoMock.obtenerMedicoPorId.mockResolvedValue(medicoMock);
 
-    const resultado = await obtenerMedicoCasoUso.obtenerMedicoPorId("123");
+    const resultado = await obtenerMedicoCasoUso.obtenerMedicoPorId("");
 
-    expect(repoMock.obtenerMedicoPorId).toHaveBeenCalledWith("123");
+    expect(repoMock.obtenerMedicoPorId).toHaveBeenCalledWith("");
     expect(resultado).toEqual(medicoMock);
   });
 
   test("Debe retornar null si el médico no existe", async () => {
     repoMock.obtenerMedicoPorId.mockResolvedValue(null);
 
-    const resultado = await obtenerMedicoCasoUso.obtenerMedicoPorId("999");
+    const resultado = await obtenerMedicoCasoUso.obtenerMedicoPorId("");
 
-    expect(repoMock.obtenerMedicoPorId).toHaveBeenCalledWith("999");
+    expect(repoMock.obtenerMedicoPorId).toHaveBeenCalledWith("");
     expect(resultado).toBeNull();
   });
 
@@ -53,7 +53,7 @@ describe("Pruebas unitarias ObtenerMedicoPorId", () => {
       new Error("Error al obtener médico")
     );
 
-    await expect(obtenerMedicoCasoUso.obtenerMedicoPorId("123"))
+    await expect(obtenerMedicoCasoUso.obtenerMedicoPorId(""))
       .rejects
       .toThrow("Error al obtener médico");
 
