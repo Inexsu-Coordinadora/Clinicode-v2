@@ -8,8 +8,8 @@ import { FastifyInstance } from 'fastify';
 
 
 export async function consultorioEnrutador(app: FastifyInstance) {
-    app.post('/', crearConsultorioControlador);
-    app.get('/', listarConsultoriosControlador);
-    app.put("/:id_consultorio", actualizarConsultorioControlador);
-    app.delete('/:id_consultorio', eliminarConsultorioControlador);
+    app.post('/consultorios', crearConsultorioControlador);
+    app.get('/consultorios', listarConsultoriosControlador);
+    app.put("/consultorios/:id_consultorio", actualizarConsultorioControlador);
+    app.delete('/consultorios/:id_consultorio', eliminarConsultorioControlador);
 }

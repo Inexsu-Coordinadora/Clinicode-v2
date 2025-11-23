@@ -12,10 +12,10 @@ const app = Fastify({ logger: true });
 
 app.register(cors);
 app.register(pacienteEnrutador, { prefix: '/api' });
-app.register(medicosEnrutador, { prefix: '/api/medicos' })
-app.register(consultorioEnrutador, { prefix: 'api/consultorios' });
-app.register(citasMedicasEnrutador, { prefix: "/api/citas-medicas" });
-app.register(servicioConsultarCitasPacienteEnrutador, {prefix: '/api/citas'})
+app.register(medicosEnrutador, { prefix: '/api' })
+app.register(consultorioEnrutador, { prefix: '/api' });
+app.register(citasMedicasEnrutador, { prefix: "/api" });
+app.register(servicioConsultarCitasPacienteEnrutador, {prefix: '/api'})
 app.register(asignacionMedicoConsultorioEnrutador, { prefix: '/api'});
 
 app.get('/', async () => {
