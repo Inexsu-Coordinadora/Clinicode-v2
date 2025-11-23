@@ -1,18 +1,18 @@
 import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
 import { IPaciente } from "../../dominio/entidades/pacientes/Ipaciente";
 import { supabase } from "../cliente-db/clienteSupabase";
-import { PacienteDTO } from "../esquemas/PacienteEsquema";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "node:crypto";;
 
 
 
 export class PacienteRepositorioSupaBase implements IPacienteRepositorio {
 
-    async crearPaciente(datosPaciente: PacienteDTO): Promise<string> {
+
+    async crearPaciente(datosPaciente: IPaciente): Promise<string> {
         const { data, error } = await supabase
             .from('pacientes')
             .insert([{
-                id_paciente: uuidv4(),
+                id_paciente: randomUUID(),
                 tipo_documento: datosPaciente.tipoDocumento,
                 numero_documento: datosPaciente.numeroDocumento,
                 nombres: datosPaciente.nombres,

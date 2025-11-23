@@ -29,7 +29,7 @@ export async function crearPacienteControlador(
     const idNuevoPaciente = await crearPacienteCaso.ejecutar(datosPaciente);
     
     return reply
-    .code(StatusCode.EXITO)
+    .code(StatusCode.CREADO)
     .send(respuestaExitosa(idNuevoPaciente,"Paciente creado correctamente"));
   } catch (err) {
     if (err instanceof ZodError) {
