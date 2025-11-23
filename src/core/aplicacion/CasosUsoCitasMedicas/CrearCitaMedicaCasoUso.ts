@@ -14,8 +14,7 @@ export class CrearCitaMedicaCasoUso {
         private consultorioRepositorio: IConsultorioRepositorio
     ) { }
 
-    async ejecutar(datos: CrearCitaMedicaDTO): Promise<ICitasMedicas> {
-
+    async ejecutar(datos: ICitasMedicas): Promise<ICitasMedicas> {
 
         const paciente = await this.pacienteRepositorio.obtenerPacientePorId(datos.id_paciente);
         if (!paciente) throw new Error("El paciente no existe.");
@@ -28,20 +27,23 @@ export class CrearCitaMedicaCasoUso {
             if (!consultorio) throw new Error("El consultorio no existe.");
         }
 
-        const conflicto = await this.citaRepositorio.validarConflictosDeAgenda(datos);
+        const conflicto = await this.citaRepositorio.validarConflictosDeAgenda({
+            ...datos,
+            id_cita: "",
+            estado: EstadosCita.PROGRAMADA,
+            creadaEn: "",
+            actualizadaEn: ""
+        });
         if (conflicto) throw new Error(conflicto);
 
-        const id_cita = crypto.randomUUID();
-
-        const nuevaCita = new CitasMedicas({
-            id_cita,
+        const nuevaCita: ICitasMedicas = {
             ...datos,
+            id_cita: crypto.randomUUID(),
             estado: EstadosCita.PROGRAMADA,
             creadaEn: new Date().toISOString(),
-            actualizadaEn: null,
-        });
+            actualizadaEn: null
+        };
 
-        const citaCreada = await this.citaRepositorio.crearCitaMedica(nuevaCita);
-        return citaCreada;
+        return await this.citaRepositorio.crearCitaMedica(nuevaCita);
     }
 }

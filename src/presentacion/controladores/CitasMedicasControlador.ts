@@ -13,12 +13,13 @@ import {
 } from "../../common/respuestaHttp";
 import { errorServidor, noEncontrado, solicitudInvalida } from "../../common/erroresComunes";
 import { CrearCitaMedicaCasoUso } from "../../core/aplicacion/CasosUsoCitasMedicas/CrearCitaMedicaCasoUso";
-import { DatosReprogramacion } from "../../core/dominio/entidades/CitasMedicas/ICitasMedicas";
+import { DatosReprogramacion, ICitasMedicas } from "../../core/dominio/entidades/CitasMedicas/ICitasMedicas";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
 import { PacienteRepositorioSupaBase } from "../../core/infraestructura/repositorios/pacienteRepositorioSupaBase";
 import { CrearCitaMedicaEsquema } from "../../core/infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema";
 import { ActualizarCitaMedicaEsquema } from "../../core/infraestructura/esquemas/CitaMedicaEsquemas/ActualizarCitaMedicaEsquema";
+import { EstadosCita } from "../../common/estadoCita";
 
 
 
@@ -38,9 +39,9 @@ const crearCitaCaso = new CrearCitaMedicaCasoUso(repoCitas, repoPacientes, repoM
 
 export async function crearCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {
-
         const body = req.body as any;
-        const datos = {
+
+        const datosDTO = {
             id_paciente: body.idPaciente,
             id_medico: body.idMedico,
             id_consultorio: body.idConsultorio,
@@ -48,19 +49,30 @@ export async function crearCitaMedicaControlador(req: FastifyRequest, reply: Fas
             motivoCita: body.motivoCita,
         };
 
-        const datosValidados = CrearCitaMedicaEsquema.parse(datos);
-        const cita = await crearCitaCaso.ejecutar(datosValidados);
+        const datosValidados = CrearCitaMedicaEsquema.parse(datosDTO);
+
+        const datosICita: ICitasMedicas = {
+            id_cita: "",
+            ...datosValidados,
+            estado: EstadosCita.PROGRAMADA,
+            creadaEn: "",
+            actualizadaEn: null
+        };
+
+        const cita = await crearCitaCaso.ejecutar(datosICita);
 
         return reply
             .code(StatusCode.CREADO)
             .send(respuestaCreacion(cita, "Cita médica creada correctamente."));
 
     } catch (error: any) {
+
         if (error.name === "ZodError") {
             return reply
                 .code(StatusCode.SOLICITUD_INCORRECTA)
-                .send(solicitudInvalida(error.errors));
+                .send(solicitudInvalida(error.issues));
         }
+
         return reply
             .code(StatusCode.ERROR_SERVIDOR)
             .send(errorServidor(`Error al crear la cita médica: ${error.message}`));
@@ -129,24 +141,38 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
                 .send(solicitudInvalida("No se recibieron datos para actualizar."));
         }
 
-        const datos = {
-            id_paciente: body.idPaciente ?? undefined,
-            id_medico: body.idMedico ?? undefined,
-            id_consultorio: body.idConsultorio ?? undefined,
-            fecha_cita: body.fechaCita ?? undefined,
-            motivoCita: body.motivoCita ?? undefined
+        const dto = {
+            id_paciente: body.idPaciente,
+            id_medico: body.idMedico,
+            id_consultorio: body.idConsultorio,
+            fecha_cita: body.fechaCita,
+            motivoCita: body.motivoCita,
+            estado: body.estadoCita
         };
 
+        const datosValidados = ActualizarCitaMedicaEsquema.parse(dto);
 
-        const datosValidados = ActualizarCitaMedicaEsquema.parse(datos);
+        const citaExistente = await obtenerCitaPorIdCaso.ejecutar(id_cita);
 
-        const citaActualizada = await actualizarCitaCaso.ejecutar(id_cita, datosValidados);
-
-        if (!citaActualizada) {
+        if (!citaExistente) {
             return reply
                 .code(StatusCode.NO_ENCONTRADO)
-                .send(noEncontrado("No se encontró la cita médica para actualizar."));
+                .send(noEncontrado("La cita médica no existe."));
         }
+
+        const datosCompletos: ICitasMedicas = {
+            id_cita: citaExistente.id_cita,
+            id_paciente: datosValidados.id_paciente ?? citaExistente.id_paciente,
+            id_medico: datosValidados.id_medico ?? citaExistente.id_medico,
+            id_consultorio: datosValidados.id_consultorio ?? citaExistente.id_consultorio,
+            fecha_cita: datosValidados.fecha_cita ?? citaExistente.fecha_cita,
+            motivoCita: datosValidados.motivoCita ?? citaExistente.motivoCita,
+            estado: datosValidados.estado ?? citaExistente.estado,
+            creadaEn: citaExistente.creadaEn,
+            actualizadaEn: new Date().toISOString()
+        };
+
+        const citaActualizada = await actualizarCitaCaso.ejecutar(id_cita, datosCompletos);
 
         return reply
             .code(StatusCode.EXITO)
@@ -165,6 +191,7 @@ export async function actualizarCitaMedicaControlador(req: FastifyRequest, reply
             .send(errorServidor(`Error al actualizar cita médica: ${error.message}`));
     }
 }
+
 
 export async function eliminarCitaMedicaControlador(req: FastifyRequest, reply: FastifyReply) {
     try {

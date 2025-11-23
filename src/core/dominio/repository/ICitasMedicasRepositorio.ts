@@ -6,7 +6,7 @@ export interface ICitasMedicasRepositorio {
     crearCitaMedica(citaMedica: ICitasMedicas): Promise<ICitasMedicas>;
     obtenerCitasMedicas(): Promise<ICitasMedicas[]>;
     obtenerCitaMedicaPorID(idCita: string): Promise<ICitasMedicas | null>;
-    actualizarCitaMedica(idCita: string, datosCita: ActualizarCitaMedicaDTO): Promise<ICitasMedicas | null>;
+    actualizarCitaMedica(idCita: string, datosCita: ICitasMedicas): Promise<ICitasMedicas | null>;
     eliminarCitaMedica(idCita: string): Promise<boolean>;
-    validarConflictosDeAgenda(cita: CrearCitaMedicaDTO): Promise<string | null>;
+    validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null>;
 }

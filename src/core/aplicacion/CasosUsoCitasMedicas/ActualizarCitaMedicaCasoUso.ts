@@ -14,28 +14,16 @@ export class ActualizarCitaMedicaCasoUso {
         }
 
         const citaActualizada: ICitasMedicas = {
-            ...citaExistente,
-            actualizadaEn: new Date().toISOString(),
+            id_cita: citaExistente.id_cita,
+            id_paciente: datos.id_paciente ?? citaExistente.id_paciente,
+            id_medico: datos.id_medico ?? citaExistente.id_medico,
+            id_consultorio: datos.id_consultorio ?? citaExistente.id_consultorio,
+            fecha_cita: datos.fecha_cita ?? citaExistente.fecha_cita,
+            motivoCita: datos.motivoCita ?? citaExistente.motivoCita,
+            estado: datos.estado ?? citaExistente.estado,
+            creadaEn: citaExistente.creadaEn,
+            actualizadaEn: new Date().toISOString()
         };
-
-        if (datos.id_paciente !== undefined) {
-            citaActualizada.id_paciente = datos.id_paciente;
-        }
-        if (datos.id_medico !== undefined) {
-            citaActualizada.id_medico = datos.id_medico;
-        }
-        if (datos.id_consultorio !== undefined) {
-            citaActualizada.id_consultorio = datos.id_consultorio;
-        }
-        if (datos.fecha_cita !== undefined) {
-            citaActualizada.fecha_cita = datos.fecha_cita;
-        }
-        if (datos.motivoCita !== undefined) {
-            citaActualizada.motivoCita = datos.motivoCita;
-        }
-        if (datos.estado !== undefined) {
-            citaActualizada.estado = datos.estado;
-        }
 
         return await this.repositorio.actualizarCitaMedica(id_cita, citaActualizada);
     }
