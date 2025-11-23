@@ -22,7 +22,7 @@ describe("TEST INTEGRACIÓN - Crear Médico", () => {
 
   beforeAll(async () => {
     app = Fastify();
-    await app.register(medicosEnrutador, { prefix: "/medicos" });
+    await app.register(medicosEnrutador);
     await app.ready();
   });
 

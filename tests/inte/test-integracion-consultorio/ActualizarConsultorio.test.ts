@@ -8,7 +8,7 @@ describe("TEST INTEGRACIÓN - Actualizar Consultorio", () => {
 
     beforeAll(async () => {
         app = Fastify();
-        await app.register(consultorioEnrutador, { prefix: "/consultorios" });
+        await app.register(consultorioEnrutador);
         await app.ready();
 
         // Crear un consultorio de prueba

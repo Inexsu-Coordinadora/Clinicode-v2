@@ -18,7 +18,7 @@ describe("TEST INTEGRACIÓN - Obtener Médico por ID", () => {
 
     beforeAll(async () => {
         app = Fastify();
-        await app.register(medicosEnrutador, { prefix: "/medicos" });
+        await app.register(medicosEnrutador);
         await app.ready();
 
         const { data, error } = await supabase
