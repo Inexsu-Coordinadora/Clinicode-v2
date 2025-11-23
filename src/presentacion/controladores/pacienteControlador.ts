@@ -72,7 +72,7 @@ export async function obtenerPacientePorIdControlador (
       if (!pacienteEncontrado) {
         return reply
         .code(StatusCode.NO_ENCONTRADO)
-        .send(noEncontrado(idPaciente));
+        .send(noEncontrado(id_paciente));
       }
 
       return reply
@@ -98,7 +98,7 @@ export async function actualizarPacienteControlador(
         if (!pacienteActualizado) {
           reply
           .code(StatusCode.NO_ENCONTRADO)
-          .send(noEncontrado(idPaciente));
+          .send(noEncontrado(id_paciente));
         }
 
         return reply
