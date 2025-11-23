@@ -211,7 +211,7 @@ export const respuestaError = (mensaje: string, codigo?: number) => ({
 });
 
 
-## 🧪 Ejecución de Tests
+## Ejecución de Tests
 
 Este proyecto utiliza **Jest** para pruebas unitarias e integración.
 
