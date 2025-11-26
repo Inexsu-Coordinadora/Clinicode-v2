@@ -79,7 +79,8 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         };
     }
 
-    async actualizarCitaMedica(id_cita: string, datosCita: ActualizarCitaMedicaDTO): Promise<ICitasMedicas | null> {
+    async actualizarCitaMedica(id_cita: string, datosCita: ICitasMedicas): Promise<ICitasMedicas | null> {
+
         const payload: any = {
             id_paciente: datosCita.id_paciente,
             id_medico: datosCita.id_medico,
@@ -87,8 +88,12 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
             fecha_cita: datosCita.fecha_cita,
             motivo: datosCita.motivoCita,
             estado: datosCita.estado,
-            actualizada_en: datosCita.actualizadaEn ?? new Date().toISOString(),
+            actualizada_en: new Date().toISOString(),
         };
+
+        Object.keys(payload).forEach((key) => {
+            if (payload[key] === undefined) delete payload[key];
+        });
 
         const { data, error } = await supabase
             .from("citas_medicas")
@@ -112,6 +117,7 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
         };
     }
 
+
     async eliminarCitaMedica(id_cita: string): Promise<boolean> {
         const { error } = await supabase
             .from("citas_medicas")
@@ -120,21 +126,6 @@ export class CitasMedicasRepositorioSupabase implements ICitasMedicasRepositorio
 
         if (error) throw new Error(error.message);
         return true;
-    }
-
-    async obtenerPacientePorId(id_paciente: string) {
-        const { data } = await supabase.from("pacientes").select("id_paciente").eq("id_paciente", id_paciente).maybeSingle();
-        return data;
-    }
-
-    async obtenerMedicoPorId(id_medico: string) {
-        const { data } = await supabase.from("medicos").select("id_medico").eq("id_medico", id_medico).maybeSingle();
-        return data;
-    }
-
-    async obtenerConsultorioPorId(id_consultorio: string) {
-        const { data } = await supabase.from("consultorios").select("id_consultorio").eq("id_consultorio", id_consultorio).maybeSingle();
-        return data;
     }
 
     async validarConflictosDeAgenda(cita: ICitasMedicas): Promise<string | null> {

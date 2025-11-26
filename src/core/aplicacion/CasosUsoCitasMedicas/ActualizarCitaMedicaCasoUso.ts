@@ -6,7 +6,7 @@ import { ActualizarCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedi
 export class ActualizarCitaMedicaCasoUso {
     constructor(private repositorio: ICitasMedicasRepositorio) { }
 
-    async ejecutar(id_cita: string, datos: ActualizarCitaMedicaDTO): Promise<ICitasMedicas | null> {
+    async ejecutar(id_cita: string, datos: ICitasMedicas): Promise<ICitasMedicas | null> {
 
         const citaExistente = await this.repositorio.obtenerCitaMedicaPorID(id_cita);
         if (!citaExistente) {

@@ -5,7 +5,6 @@ import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicas
 import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
 import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
 import { IPacienteRepositorio } from "../../dominio/repository/IPacienteRepositorio";
-import { CrearCitaMedicaDTO } from "../../infraestructura/esquemas/CitaMedicaEsquemas/CrearCitaMedicaEsquema";
 export class CrearCitaMedicaCasoUso {
     constructor(
         private citaRepositorio: ICitasMedicasRepositorio,
@@ -16,14 +15,14 @@ export class CrearCitaMedicaCasoUso {
 
     async ejecutar(datos: ICitasMedicas): Promise<ICitasMedicas> {
 
-        const paciente = await this.repositorio.obtenerPacientePorId(datos.id_paciente);
+        const paciente = await this.pacienteRepositorio.obtenerPacientePorId(datos.id_paciente);
         if (!paciente) throw new Error("El paciente no existe.");
 
-        const medico = await this.repositorio.obtenerMedicoPorId(datos.id_medico);
+        const medico = await this.medicoRepositorio.obtenerMedicoPorId(datos.id_medico);
         if (!medico) throw new Error("El médico no existe.");
 
         if (datos.id_consultorio) {
-            const consultorio = await this.repositorio.obtenerConsultorioPorId(datos.id_consultorio);
+            const consultorio = await this.consultorioRepositorio.obtenerConsultorioPorID(datos.id_consultorio);
             if (!consultorio) throw new Error("El consultorio no existe.");
         }
 
