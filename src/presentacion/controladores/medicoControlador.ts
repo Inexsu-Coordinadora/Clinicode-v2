@@ -1,11 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { IMedico } from "../../core/dominio/entidades/medicos/IMedico.js";
-import { IMedicoCasosUso } from "../../core/aplicacion/casoUsoMedico/IMedicoCasosUso.js";
-import { MedicoDTO, CrearMedicoEsquema } from "../../core/infraestructura/esquemas/MedicoEsquema.js";
+import { IMedico } from "../../core/dominio/entidades/medicos/IMedico";
+import { IMedicoCasosUso } from "../../core/aplicacion/casoUsoMedico/IMedicoCasosUso";
+import { MedicoDTO, CrearMedicoEsquema } from "../../core/infraestructura/esquemas/MedicoEsquema";
 import { ZodError } from "zod";
-import { StatusCode } from "../../common/statusCode.js";
-import { respuestaExitosa, respuestaCreacion, respuestaError } from "../../common/respuestaHttp.js";
-import { solicitudInvalida, noEncontrado, errorServidor } from "../../common/erroresComunes.js";
+import { StatusCode } from "../../common/statusCode";
+import { respuestaExitosa, respuestaCreacion, respuestaError } from "../../common/respuestaHttp";
+import { solicitudInvalida, noEncontrado, errorServidor } from "../../common/erroresComunes";
 
 export class MedicoControlador {
   constructor(private medicosCasosUso: IMedicoCasosUso) {}

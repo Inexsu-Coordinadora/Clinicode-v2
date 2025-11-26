@@ -1,6 +1,6 @@
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { DatosReprogramacion } from "../../dominio/entidades/CitasMedicas/ICitasMedicas.js";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { DatosReprogramacion } from "../../dominio/entidades/CitasMedicas/ICitasMedicas";
 
 export class CancelarOReprogramarCitaCasoUso {
     constructor(
@@ -20,13 +20,15 @@ export class CancelarOReprogramarCitaCasoUso {
         }
 
         if (accion === "cancelar") {
-            // Cambiar estado
             citaExistente.estado = "Cancelada";
             citaExistente.actualizadaEn = new Date().toISOString();
 
-            await this.citasRepositorio.actualizarCitaMedica(id_cita, citaExistente);
+            await this.citasRepositorio.actualizarCitaMedica(id_cita, {
+                ...citaExistente,
+                fecha_cita: citaExistente.fecha_cita,
+                actualizadaEn: new Date().toISOString(),
+            });
 
-            //  Liberar consultorio
             await this.consultorioRepositorio.actualizar(citaExistente.id_consultorio, {
                 disponible: true,
             });
@@ -43,9 +45,14 @@ export class CancelarOReprogramarCitaCasoUso {
             }
 
             //Validar que la nueva fecha sea futura
-            const nuevaFecha = new Date(datosReprogramacion.fecha_cita);
-            const fechaActual = new Date();
-            if (nuevaFecha <= fechaActual) {
+            const nuevaFechaISO = datosReprogramacion.fecha_cita;
+            const nuevaFecha = new Date(nuevaFechaISO);
+
+            if (isNaN(nuevaFecha.getTime())) {
+                throw new Error("Fecha inválida.");
+            }
+
+            if (nuevaFecha <= new Date()) {
                 throw new Error("No se puede reprogramar a una fecha pasada o actual.");
             }
 
@@ -63,31 +70,21 @@ export class CancelarOReprogramarCitaCasoUso {
 
             // normalizar nueva fecha
             let fechaEntrada = datosReprogramacion!.fecha_cita!;
-            if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/.test(fechaEntrada)) {
-                fechaEntrada = fechaEntrada + "Z";
-            }
 
-            const nuevaDate = new Date(fechaEntrada);
-            if (isNaN(nuevaDate.getTime())) throw new Error("Fecha inválida");
-            const nuevaMs = nuevaDate.getTime();
+            const nuevaMs = nuevaFecha.getTime();
 
-            const conflicto = todasCitas.find(c => {
-                const existenteDate = (c.fecha_cita instanceof Date) ? c.fecha_cita : new Date(c.fecha_cita);
-                if (isNaN(existenteDate.getTime())) {
-                    return false;
-                }
-                const existenteMs = existenteDate.getTime();
+            const conflicto = todasCitas.find((c) => {
+                if (c.id_cita === id_cita) return false;
 
-                const hayConflicto = c.id_cita !== id_cita &&
-                    c.estado === "Programada" &&
+                if (c.estado !== "Programada") return false;
+
+                const existenteMs = new Date(c.fecha_cita).getTime();
+                if (isNaN(existenteMs)) return false;
+
+                return (
                     existenteMs === nuevaMs &&
-                    c.id_consultorio === nuevoConsultorioId;
-
-                if (hayConflicto) {
-                    console.log("CONFLICTO DETECTADO en cita:", c.id_cita);
-                }
-
-                return hayConflicto;
+                    c.id_consultorio === nuevoConsultorioId
+                );
             });
 
             if (conflicto) {
@@ -107,7 +104,7 @@ export class CancelarOReprogramarCitaCasoUso {
             );
 
             // Actualizar los datos de la cita
-            citaExistente.fecha_cita = nuevaDate;
+            citaExistente.fecha_cita = nuevaFecha.toISOString();
             citaExistente.id_consultorio = nuevoConsultorioId;
             citaExistente.estado = "Programada";
             citaExistente.actualizadaEn = new Date().toISOString();

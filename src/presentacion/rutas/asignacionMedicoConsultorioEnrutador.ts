@@ -1,6 +1,6 @@
-import { crearAsignacionMedicoConsultorioControlador, listarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador.js";
-import { obtenerAsignacionMedicoConsultorioControlador, actualizarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador.js";
-import { eliminarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador.js";
+import { crearAsignacionMedicoConsultorioControlador, listarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador";
+import { obtenerAsignacionMedicoConsultorioControlador, actualizarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador";
+import { eliminarAsignacionMedicoConsultorioControlador } from "../controladores/asignacionMedicoConsultorioControlador";
 import { FastifyInstance } from "fastify";
 
 export async function asignacionMedicoConsultorioEnrutador (app: FastifyInstance){

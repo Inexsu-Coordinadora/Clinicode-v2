@@ -1,98 +1,100 @@
-import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio.js";
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import 'dotenv/config';
+import { IMedicosRepositorio } from "../../dominio/repository/IMedicoRepositorio";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
+import { MedicoDTO } from "../esquemas/MedicoEsquema";
+import { supabase } from "../cliente-db/clienteSupabase";
+import { randomUUID } from "node:crypto";
 
-const SUPABASE_URL = process.env.SUPABASE_URL!;
-const SUPABASE_KEY = process.env.SUPABASE_KEY!;
+export class MedicoRepositorioSupabase implements IMedicosRepositorio {
+    
 
-export class MedicoRepositorio implements IMedicosRepositorio {
-  private supabase: SupabaseClient;
+    async crearMedico(datosMedico: MedicoDTO): Promise<string> {
+        const id_medico = randomUUID();
+        const { data, error } = await supabase
+            .from("medicos")
+            .insert([
+                {
+                    id_medico,
+                    nombres: datosMedico.nombres,
+                    apellidos: datosMedico.apellidos,
+                    numero_licencia: datosMedico.numero_licencia,
+                    id_especialidad: datosMedico.id_especialidad,
+                    telefono: datosMedico.telefono ?? null,
+                    correo: datosMedico.correo ?? null,
+                },
+            ])
+            .select("id_medico")
+            .single();
 
-  constructor() {
-    this.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-  }
+        if (error) throw new Error(`Error al crear médico: ${error.message}`);
 
-  async crearMedico(datosMedico: IMedico): Promise<string> {
-    const medicoDB = {
-      id_medico: datosMedico.id_medico,
-      nombres: datosMedico.nombres,
-      apellidos: datosMedico.apellidos,
-      numero_licencia: datosMedico.numero_licencia,
-      id_especialidad: datosMedico.id_especialidad,
-      telefono: datosMedico.telefono ?? null,
-      correo: datosMedico.correo ?? null,
-    };
-
-    const { data, error } = await this.supabase
-      .from("medicos")
-      .insert([medicoDB])
-      .select();
-
-    if (error) throw new Error(error.message);
-    return data![0].id_medico.toString();
-  }
-
-  async listarMedicos(limite?: number): Promise<IMedico[]> {
-    let query = this.supabase.from("medicos").select("*");
-    if (limite) query = query.limit(limite);
-    const { data, error } = await query;
-    if (error) throw new Error(error.message);
-    return data!;
-  }
-
-  async obtenerMedicoPorId(id_medico: string): Promise<IMedico | null> {
-    const { data, error } = await this.supabase
-      .from("medicos")
-      .select("*")
-      .eq("id_medico", id_medico)
-      .single();
-
-    if (error) {
-      if (error.code === "PGRST116") return null; 
-      throw new Error(error.message);
+        return data.id_medico;
     }
 
-    return data!;
-  }
+    async listarMedicos(limite?: number): Promise<IMedico[]> {
+        let query = supabase.from("medicos").select("*");
 
-  async actualizarMedico(id_medico: string, datosMedico: IMedico): Promise<IMedico> {
-    const medicoDB = {
-      nombres: datosMedico.nombres,
-      apellidos: datosMedico.apellidos,
-      numero_licencia: datosMedico.numero_licencia,
-      id_especialidad: datosMedico.id_especialidad,
-      telefono: datosMedico.telefono ?? null,
-      correo: datosMedico.correo ?? null,
-    };
+        if (limite) query = query.limit(limite);
 
-    const { data, error } = await this.supabase
-      .from("medicos")
-      .update(medicoDB)
-      .eq("id_medico", id_medico)
-      .select();
+        const { data, error } = await query;
 
-    if (error) throw new Error(error.message);
-    return data![0];
-  }
+        if (error) throw new Error(`Error al listar médicos: ${error.message}`);
 
-  async eliminarMedico(id_medico: string): Promise<void> {
-    const { data: citas, error: errorCitas } = await this.supabase
-      .from("citas_medicas")
-      .select("id_cita")
-      .eq("id_medico", id_medico);
-
-    if (errorCitas) throw new Error(errorCitas.message);
-
-    if (citas && citas.length > 0) {
-      throw new Error("No se puede eliminar el médico porque tiene citas asociadas.");
+        return data as IMedico[];
     }
 
-    const { error } = await this.supabase
-      .from("medicos")
-      .delete()
-      .eq("id_medico", id_medico);
+    async obtenerMedicoPorId(id_medico: string): Promise<IMedico | null> {
+        const { data, error } = await supabase
+            .from("medicos")
+            .select("*")
+            .eq("id_medico", id_medico)
+            .single();
 
-    if (error) throw new Error(error.message);
-  }
+        if (error) {
+            if (error.code === "PGRST116") return null;
+            throw new Error(`Error al obtener médico: ${error.message}`);
+        }
+
+        return data as IMedico;
+    }
+
+    async actualizarMedico(id_medico: string, datosMedico: IMedico): Promise<IMedico> {
+        const { data, error } = await supabase
+            .from("medicos")
+            .update({
+                id_medico,
+                nombres: datosMedico.nombres,
+                apellidos: datosMedico.apellidos,
+                numero_licencia: datosMedico.numero_licencia,
+                id_especialidad: datosMedico.id_especialidad,
+                telefono: datosMedico.telefono ?? null,
+                correo: datosMedico.correo ?? null,
+            })
+            .eq("id_medico", id_medico)
+            .select("*")
+            .single();
+
+        if (error) throw new Error(`Error al actualizar médico: ${error.message}`);
+
+        return data as IMedico;
+    }
+
+    async eliminarMedico(id_medico: string): Promise<void> {
+        const { data: citas, error: errorCitas } = await supabase
+            .from("citas_medicas")
+            .select("id_cita")
+            .eq("id_medico", id_medico);
+
+        if (errorCitas)
+            throw new Error(`Error al validar citas del médico: ${errorCitas.message}`);
+
+        if (citas && citas.length > 0)
+            throw new Error("No se puede eliminar el médico porque tiene citas asociadas.");
+
+        const { error } = await supabase
+            .from("medicos")
+            .delete()
+            .eq("id_medico", id_medico);
+
+        if (error) throw new Error(`Error al eliminar médico: ${error.message}`);
+    }
 }

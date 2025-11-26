@@ -1,9 +1,6 @@
-import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio.js";
-import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio.js";
-import { supabase } from "../cliente-db/clienteSupabase.js";
-
-
-
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio";
+import { supabase } from "../cliente-db/clienteSupabase";
 
 export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
     async crear(consultorio: Consultorio): Promise<void> {
@@ -17,7 +14,7 @@ export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
         return data as Consultorio[];
     }
 
-    async actualizar(id_consultorio: string, datos: any) {
+    async actualizar(id_consultorio: string, datos: Partial<Consultorio>): Promise<Consultorio> {
         const { data, error } = await supabase
             .from("consultorios")
             .update(datos)
@@ -28,7 +25,11 @@ export class ConsultorioRepositorioSupabase implements IConsultorioRepositorio {
             throw new Error(error.message);
         }
 
-        return data[0];
+        if (!data || data.length === 0) {
+            throw new Error("Consultorio no encontrado");
+        }
+
+        return data[0] as Consultorio;
     }
 
     async eliminar(id_consultorio: string): Promise<boolean> {

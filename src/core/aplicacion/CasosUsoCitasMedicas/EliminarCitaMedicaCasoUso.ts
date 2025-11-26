@@ -1,4 +1,4 @@
-import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio.js";
+import { ICitasMedicasRepositorio } from "../../dominio/repository/ICitasMedicasRepositorio";
 
 export class EliminarCitaMedicaCasoUso {
     constructor(private repositorio: ICitasMedicasRepositorio) { }

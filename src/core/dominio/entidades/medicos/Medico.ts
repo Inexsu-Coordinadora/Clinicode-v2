@@ -1,4 +1,4 @@
-import { IMedico } from "./IMedico.js";
+import { IMedico } from "./IMedico";
 
 export class Medico implements IMedico {
   id_medico: string;

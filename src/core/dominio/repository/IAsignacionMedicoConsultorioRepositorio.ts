@@ -1,4 +1,4 @@
-import { IAsignacionMedicoConsultorio } from "../entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio.js";
+import { IAsignacionMedicoConsultorio } from "../entidades/asignacionMedicoConsultorio/IAsignacionMedicoConsultorio";
 
 export interface IAsignacionMedicoConsultorioRepositorio {
     crearAsignacionMedicoConsultorio(datosAsignacion: IAsignacionMedicoConsultorio): 

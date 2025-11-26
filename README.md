@@ -209,3 +209,94 @@ export const respuestaError = (mensaje: string, codigo?: number) => ({
 `  `codigo: codigo ?? 500,
 
 });
+
+
+## Ejecución de Tests
+
+Este proyecto utiliza **Jest** para pruebas unitarias e integración.
+
+### Ejecutar todos los tests
+
+```bash
+npm test
+```
+### Ejecutar solo test unitarios 
+```bash
+npm run unit-test
+```
+### Ejecutar solo tests de integración
+```bash
+npm run integration-test
+```
+### Generar cobertura de tests
+```bash
+npx jest --coverage
+
+```
+
+
+## Cobertura de Tests
+
+
+File                                                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------------------------------------------|---------|----------|---------|---------|-----------------------------------------
+All files                                              |   87.36 |    67.93 |   91.42 |   90.55 |                                         
+ common                                                |   86.48 |       25 |    37.5 |     100 |                                         
+  configuracion.ts                                     |     100 |      100 |     100 |     100 |                                         
+  erroresComunes.ts                                    |   66.66 |        0 |       0 |     100 | 7-22                                    
+  estadoCita.ts                                        |     100 |      100 |     100 |     100 |                                        
+  respuestaHttp.ts                                     |   88.88 |        0 |   66.66 |     100 | 10-19                                  
+  statusCode.ts                                        |     100 |      100 |     100 |     100 |                                        
+ core/aplicacion/CasosUsoCitasMedicas                  |   95.34 |    88.46 |     100 |   98.73 |                                        
+  ActualizarCitaMedicaCasoUso.ts                       |     100 |      100 |     100 |     100 |                                        
+  CancelarOReprogramarCitaCasoUso.ts                   |   91.83 |    82.14 |     100 |   97.82 | 121                                    
+  CrearCitaMedicaCasoUso.ts                            |     100 |       90 |     100 |     100 | 25                                     
+  EliminarCitaMedicaCasoUso.ts                         |     100 |      100 |     100 |     100 |                                        
+  ObtenerCitaMedicaPorIdCasoUso.ts                     |     100 |      100 |     100 |     100 |                                        
+  ObtenerCitasMedicasCasoUso.ts                        |     100 |      100 |     100 |     100 |                                        
+ core/aplicacion/asignacionMedicoConsultorioCasoUso    |     100 |      100 |     100 |     100 |                                        
+  ActualizarAsignacionMedicoConsultorio.ts             |     100 |      100 |     100 |     100 |                                        
+  CrearAsignacionMedicoConsultorio.ts                  |     100 |      100 |     100 |     100 |                                        
+  EliminarAsignacionMedicoConsultorio.ts               |     100 |      100 |     100 |     100 |                                        
+  ListarAsignacionMedicoConsultorio.ts                 |     100 |      100 |     100 |     100 |                                        
+  ObtenerAsignacionMedicoConsultorioID.ts              |     100 |      100 |     100 |     100 |                                        
+ core/aplicacion/casoUsoConsultorio                    |   94.44 |       75 |     100 |   94.44 |                                        
+  actualizarConsultorio.ts                             |     100 |      100 |     100 |     100 |                                        
+  crearConsultorio.ts                                  |     100 |      100 |     100 |     100 |                                        
+  eliminarConsultorio.ts                               |    87.5 |       75 |     100 |    87.5 | 9                                      
+  listarConsultorio.ts                                 |     100 |      100 |     100 |     100 |                                        
+ core/aplicacion/casoUsoMedico                         |     100 |    83.33 |     100 |     100 |                                        
+  actualizaMedico.ts                                   |     100 |    83.33 |     100 |     100 | 22                                     
+  crearMedico.ts                                       |     100 |      100 |     100 |     100 |                                        
+  eliminarMedico.ts                                    |     100 |      100 |     100 |     100 |                                        
+  listarMedico.ts                                      |     100 |      100 |     100 |     100 |                                        
+  obtenerMedicoPorId.ts                                |     100 |      100 |     100 |     100 |                                        
+ core/aplicacion/casoUsoServicioConsultarCitasPaciente |     100 |       50 |     100 |     100 |                                        
+  servicioConsultarCitasPaciente.ts                    |     100 |       50 |     100 |     100 | 11                                     
+ core/aplicacion/pacienteCasoUso                       |     100 |      100 |     100 |     100 |                                        
+  ActualizarPaciente.ts                                |     100 |      100 |     100 |     100 |                                        
+  CrearPaciente.ts                                     |     100 |      100 |     100 |     100 |                                        
+  EliminarPaciente.ts                                  |     100 |      100 |     100 |     100 |                                        
+  ListarPacientes.ts                                   |     100 |      100 |     100 |     100 |                                        
+  ObtenerPacientePorId.ts                              |     100 |      100 |     100 |     100 |                                        
+ core/dominio/entidades/medicos                        |     100 |       75 |     100 |     100 |                                        
+  Medico.ts                                            |     100 |       75 |     100 |     100 | 20                                     
+ core/infraestructura/cliente-db                       |     100 |      100 |     100 |     100 |                                        
+  clienteSupabase.ts                                   |     100 |      100 |     100 |     100 |                                        
+ core/infraestructura/esquemas                         |     100 |       50 |     100 |     100 |                                        
+  ConsultorioEsquema.ts                                |     100 |      100 |     100 |     100 |                                        
+  MedicoEsquema.ts                                     |     100 |       50 |     100 |     100 | 29-35                                  
+ core/infraestructura/repositorios                     |   62.82 |       50 |   78.57 |   71.64 |                                        
+  consultorioRepositorioSupabase.ts                    |   48.38 |       40 |   57.14 |   55.55 | 25,42-43,50-78                         
+  medicoRepositorioSupabase.ts                         |   69.69 |       50 |     100 |   85.18 | 53-54,88,91                            
+  servicioConsultarCitasPacienteRepositorioSupabase.ts |   78.57 |    66.66 |     100 |   76.92 | 19,42,46                                
+ presentacion/controladores                            |      79 |    38.88 |   92.85 |   79.79 |                                        
+  consultorioControlador.ts                            |   89.79 |    41.66 |     100 |   89.79 | 42-43,52,101-102                       
+  medicoControlador.ts                                 |   68.62 |    33.33 |   85.71 |      70 | 25-26,41,50-51,69-77,96,105-106,124-125
+ presentacion/rutas                                    |     100 |      100 |     100 |     100 |                                        
+  consultorioEnrutador.ts                              |     100 |      100 |     100 |     100 |                                        
+  medicoEnrutador.ts                                   |     100 |      100 |     100 |     100 |                                        
+
+### Video de ejecución de las pruebas
+
+https://drive.google.com/drive/folders/11vZ4QtuEj2VYabMkRN4nUdUrTEq_qyPJ?usp=sharing

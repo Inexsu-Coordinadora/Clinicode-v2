@@ -1,13 +1,11 @@
-import { ConsultorioRepositorioSupabase } from "../../infraestructura/repositorios/consultorioRepositorioSupabase.js";
+import { IConsultorioRepositorio } from "../../dominio/repository/IConsultorioRepositorio";
+import { ActualizarConsultorioDTO } from "../../infraestructura/esquemas/ConsultorioEsquema";
+import { Consultorio } from "../../dominio/entidades/consultorios/IConsultorio";
 
 export class ActualizarConsultorio {
-    constructor(private repo: ConsultorioRepositorioSupabase) { }
+    constructor(private repo: IConsultorioRepositorio) { }
 
-    async ejecutar(id_consultorio: string, datos: any) {
-        if (!id_consultorio) {
-            throw new Error("El ID del consultorio es obligatorio.");
-        }
-
+    async ejecutar(id_consultorio: string, datos: ActualizarConsultorioDTO): Promise<Consultorio> {
         const resultado = await this.repo.actualizar(id_consultorio, datos);
         return resultado;
     }

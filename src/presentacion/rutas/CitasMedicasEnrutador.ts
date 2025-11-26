@@ -3,14 +3,14 @@ import {
     actualizarCitaMedicaControlador, cancelarOReprogramarCitaControlador,
     crearCitaMedicaControlador, eliminarCitaMedicaControlador, listarCitasMedicasControlador,
     obtenerCitaMedicaPorIdControlador
-} from "../controladores/CitasMedicasControlador.js";
+} from "../controladores/CitasMedicasControlador";
 
 export async function citasMedicasEnrutador(app: FastifyInstance) {
 
-    app.post("/", crearCitaMedicaControlador);
-    app.get("/", listarCitasMedicasControlador);
-    app.get("/:id_cita", obtenerCitaMedicaPorIdControlador);
-    app.put("/:id_cita", actualizarCitaMedicaControlador);
-    app.delete("/:id_cita", eliminarCitaMedicaControlador);
-    app.put("/:id_cita/accion", cancelarOReprogramarCitaControlador);
+    app.post("/citas-medicas", crearCitaMedicaControlador);
+    app.get("/citas-medicas", listarCitasMedicasControlador);
+    app.get("/citas-medicas/:id_cita", obtenerCitaMedicaPorIdControlador);
+    app.put("/citas-medicas/:id_cita", actualizarCitaMedicaControlador);
+    app.delete("/citas-medicas/:id_cita", eliminarCitaMedicaControlador);
+    app.put("/citas-medicas/:id_cita/accion", cancelarOReprogramarCitaControlador);
 }

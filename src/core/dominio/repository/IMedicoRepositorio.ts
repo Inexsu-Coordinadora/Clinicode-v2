@@ -1,4 +1,4 @@
-import { IMedico } from "../../dominio/entidades/medicos/IMedico.js";
+import { IMedico } from "../../dominio/entidades/medicos/IMedico";
 
 export interface IMedicosRepositorio {
   crearMedico(datosMedico: IMedico): Promise<string>;

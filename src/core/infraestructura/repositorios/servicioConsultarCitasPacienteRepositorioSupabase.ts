@@ -1,14 +1,14 @@
-import { createClient } from "@supabase/supabase-js";
-import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio.js";
-import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente.js";
-import { StatusCode } from "../../../common/statusCode.js";
+import { IServicioConsultarCitasPacientesRepositorio } from "../../dominio/repository/IServicioConsultarCitasPacientesRepositorio";
+import { IConsultarCitasPaciente } from "../../dominio/entidades/servicioConsultarCitasPaciente/IConsultarCitasPaciente";
+import { StatusCode } from "../../../common/statusCode";
+import { supabase } from "../cliente-db/clienteSupabase";
 
-const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
+export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServicioConsultarCitasPacientesRepositorio{
 
-export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServicioConsultarCitasPacientesRepositorio {
   async obtenerCitasPorPaciente(
     numeroDocumento: string
   ): Promise<{ mensaje: string; citas: IConsultarCitasPaciente[] }> {
+
     const { data: paciente, error: errorPaciente } = await supabase
       .from("pacientes")
       .select("id_paciente")
@@ -16,27 +16,30 @@ export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServi
       .single();
 
     if (errorPaciente || !paciente) {
-      throw { codigo: StatusCode.NO_ENCONTRADO, mensaje: "Paciente no encontrado" };
+      throw new Error("Paciente no encontrado" + StatusCode.NO_ENCONTRADO);
     }
 
     const { data: citas, error: errorCitas } = await supabase
       .from("citas_medicas")
-      .select(
-        `
+      .select(`
         id_cita,
         fecha_cita,
         estado,
-        medicos (nombres, apellidos, especialidades (nombre)),
-        consultorios (nombre, ubicacion)
-      `,
-        { count: "exact" }
-      )
+        medicos (
+          nombres,
+          apellidos,
+          especialidades (nombre)
+        ),
+        consultorios (
+          nombre,
+          ubicacion
+        )
+      `)
       .eq("id_paciente", paciente.id_paciente)
-      .order("fecha_cita", { ascending: true })
-      .limit(50);
+      .order("fecha_cita", { ascending: true });
 
-    if (errorCitas) {
-      throw { codigo: StatusCode.ERROR_SERVIDOR, mensaje: "Error al obtener citas" };
+     if (errorCitas) {
+      throw new Error ("Error al obtener las citas" + StatusCode.ERROR_SERVIDOR);
     }
 
     if (!citas || citas.length === 0) {
@@ -46,27 +49,24 @@ export class ServicioConsultarCitasPacienteRepositorioSupabase implements IServi
       };
     }
 
-    const citasUnicas = (citas || []).filter(
-      (cita, index, self) =>
-        index === self.findIndex((c) => c.id_cita === cita.id_cita)
-    );
+    const citasDTO: IConsultarCitasPaciente[] = citas.map((cita: any) => ({
+      id_cita: cita.id_cita,
+      fecha_cita: cita.fecha_cita,
+      estado: cita.estado,
+      medico: {
+        nombres: cita.medicos?.nombres,
+        apellidos: cita.medicos?.apellidos,
+        especialidad: cita.medicos?.especialidades?.nombre ?? null,
+      },
+      consultorio: {
+        nombre: cita.consultorios?.nombre,
+        ubicacion: cita.consultorios?.ubicacion,
+      },
+    }));
 
     return {
-      mensaje: "Citas encontradas correctamente",
-      citas: citasUnicas.map((cita: any) => ({
-        id_cita: cita.id_cita,
-        fecha_cita: cita.fecha_cita,
-        estado: cita.estado,
-        medico: {
-          nombres: cita.medicos?.nombres,
-          apellidos: cita.medicos?.apellidos,
-          especialidad: cita.medicos?.especialidades?.nombre,
-        },
-        consultorio: {
-          nombre: cita.consultorios?.nombre,
-          ubicacion: cita.consultorios?.ubicacion,
-        },
-      })),
+      mensaje: "Citas obtenidas correctamente",
+      citas: citasDTO,
     };
   }
 }

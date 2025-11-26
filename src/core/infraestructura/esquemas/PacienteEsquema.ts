@@ -34,8 +34,11 @@ export const CrearPacienteEsquema = z.object({
     .max(20),
     correo: z.
     string()
-    .optional()
-    .transform((val) => val ?? null),
+    .email("Formato de correo inválido")
+    .max(100)
+    .nullable() 
+    .optional() 
+    .transform(val => (val === undefined || val === '') ? null : val),
     direccion: z.
     string()
     .nonempty("La dirección del paciente es obligatoria")

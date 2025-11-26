@@ -1,27 +1,27 @@
 import { FastifyInstance } from "fastify";
-import { MedicoControlador } from "../controladores/medicoControlador.js";
-import { IMedicosRepositorio } from "../../core/dominio/repository/IMedicoRepositorio.js";
-import { MedicoRepositorio } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase.js";
+import { MedicoControlador } from "../controladores/medicoControlador";
+import { IMedicosRepositorio } from "../../core/dominio/repository/IMedicoRepositorio";
+import { MedicoRepositorioSupabase } from "../../core/infraestructura/repositorios/medicoRepositorioSupabase";
+import { CrearMedico } from "../../core/aplicacion/casoUsoMedico/crearMedico";
+import { ListarMedicos } from "../../core/aplicacion/casoUsoMedico/listarMedico";
+import { ObtenerMedicoPorId } from "../../core/aplicacion/casoUsoMedico/obtenerMedicoPorId";
+import { ActualizarMedico } from "../../core/aplicacion/casoUsoMedico/actualizaMedico";
+import { EliminarMedico } from "../../core/aplicacion/casoUsoMedico/eliminarMedico";
 
-import { CrearMedico } from "../../core/aplicacion/casoUsoMedico/crearMedico.js";
-import { ListarMedicos } from "../../core/aplicacion/casoUsoMedico/listarMedico.js";
-import { ObtenerMedicoPorId } from "../../core/aplicacion/casoUsoMedico/obtenerMedicoPorId.js";
-import { ActualizarMedico } from "../../core/aplicacion/casoUsoMedico/actualizaMedico.js";
-import { EliminarMedico } from "../../core/aplicacion/casoUsoMedico/eliminarMedico.js";
 
 function medicoEnrutador(
     app: FastifyInstance,
     medicoControlador: MedicoControlador
 ) {
-    app.get("/", medicoControlador.listarMedicos);
-    app.get("/:id_medico", medicoControlador.obtenerMedicoPorId);
-    app.post("/", medicoControlador.crearMedico);
-    app.put("/:id_medico", medicoControlador.actualizarMedico);
-    app.delete("/:id_medico", medicoControlador.eliminarMedico);
+    app.get("/medicos", medicoControlador.listarMedicos);
+    app.get("/medicos/:id_medico", medicoControlador.obtenerMedicoPorId);
+    app.post("/medicos", medicoControlador.crearMedico);
+    app.put("/medicos/:id_medico", medicoControlador.actualizarMedico);
+    app.delete("/medicos/:id_medico", medicoControlador.eliminarMedico);
 }
 
 export async function medicosEnrutador(app: FastifyInstance) {
-    const medicosRepositorio: IMedicosRepositorio = new MedicoRepositorio();
+    const medicosRepositorio: IMedicosRepositorio = new MedicoRepositorioSupabase();
 
     const crearMedico = new CrearMedico(medicosRepositorio);
     const listarMedicos = new ListarMedicos(medicosRepositorio);

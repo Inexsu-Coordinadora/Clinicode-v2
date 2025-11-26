@@ -1,0 +1,19 @@
+meta {
+  name: Reprogramar y cancelar cita medica
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3000/api/citas-medicas/7bccdc3c-302b-477f-a71d-a097e3cfdf8f/accion
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "accion": "reprogramar",
+    "fecha_cita": "2025-11-26T20:00:00",
+    "id_consultorio": "32de3586-258c-42c2-bf23-73233a96d777"
+  }
+}
